@@ -10,7 +10,7 @@ COPY . .
 # Generate Prisma client
 RUN npx prisma generate
 
-# Build TypeScript
+# Build TypeScript → goes into /app/build
 RUN npm run build
 
 # ---- Production image ----
@@ -21,8 +21,10 @@ WORKDIR /app
 COPY --from=builder /app/package*.json ./
 RUN npm ci --only=production
 
-COPY --from=builder /app/dist ./dist
+# Copy compiled build output
+COPY --from=builder /app/build ./build
 COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 4000
-CMD ["node", "dist/index.js"]
+
+CMD ["node", "build/index.js"]
