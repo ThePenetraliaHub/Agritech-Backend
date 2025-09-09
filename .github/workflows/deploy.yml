@@ -32,7 +32,7 @@ jobs:
       # 🏗 Build Docker image
       - name: Build Docker image
         run: docker build --pull -t ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
-        
+
       - name: Push Docker images
         run: docker push ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
@@ -43,7 +43,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/agritech-backend
+            cd /home/ubuntu/agritech
             docker-compose -f agritech-backend.yml down
             docker-compose -f agritech-backend.yml pull --ignore-pull-failures
             docker-compose -f agritech-backend.yml up -d --force-recreate
