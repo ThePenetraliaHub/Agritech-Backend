@@ -1,35 +1,38 @@
-# ---- Builder stage ----
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install all deps including dev (Prisma CLI lives here)
+# Copy package manifests first
 COPY package*.json ./
-RUN npm ci
 
-# Copy source code
+# Force install EXACTLY what is in package-lock.json if present
+RUN npm ci || npm install --legacy-peer-deps
+
+# Copy the full source
 COPY . .
 
-# Build TS
+# Generate Prisma client inside build stage
+RUN npx prisma generate
+
+# Build TS to JS
 RUN npm run build
 
 
-# ---- Production stage ----
+# ----------------- Production stage -----------------
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files
+# Copy only package files first
 COPY --from=builder /app/package*.json ./
-RUN npm ci --only=production
+RUN npm ci --only=production || npm install --only=production --legacy-peer-deps
 
-# Copy prisma schema
-COPY --from=builder /app/prisma ./prisma
-
-# Copy compiled code
+# Copy compiled code + Prisma
 COPY --from=builder /app/build ./build
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-# ⚡ Re-generate Prisma client using the installed @prisma/client version
+# Make sure Prisma client exists
 RUN npx prisma generate
 
 EXPOSE 4000
