@@ -3,17 +3,17 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
+# Install all deps (dev + prod)
 COPY package*.json ./
 RUN npm ci
 
-# Copy source code
+# Copy app source
 COPY . .
 
-# Generate Prisma client in builder
+# Generate Prisma client (using schema + env)
 RUN npx prisma generate
 
-# Build TypeScript → outputs to /app/build
+# Build TypeScript
 RUN npm run build
 
 
@@ -22,19 +22,20 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy only package.json + lock file first
+# Copy package.json + lock
 COPY --from=builder /app/package*.json ./
 RUN npm ci --only=production
 
-# Copy compiled build output and prisma schema
-COPY --from=builder /app/build ./build
+# Copy Prisma schema and client (important!)
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-# Generate Prisma client again in production
-RUN npx prisma generate
+# Copy compiled build output
+COPY --from=builder /app/build ./build
 
-# Copy .env if you want it baked into the image (optional)
+# Optional: copy .env if you want it inside container
 # COPY .env .env
 
 EXPOSE 4000
+
 CMD ["node", "build/index.js"]
