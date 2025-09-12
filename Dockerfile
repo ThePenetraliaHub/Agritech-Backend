@@ -20,7 +20,7 @@ COPY --from=builder /app/build ./build
 COPY --from=builder /app/prisma ./prisma
 
 # ✅ Run prisma generate in the final image
-RUN npx prisma generate
+RUN npm prisma generate
 
 EXPOSE 4000
 CMD ["node", "build/index.js"]
