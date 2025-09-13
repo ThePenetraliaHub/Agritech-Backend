@@ -11,7 +11,7 @@ RUN npm ci
 COPY . .
 
 # Build TypeScript to /build
-RUN npm run build --force
+RUN npm run build
 
 # Generate Prisma client for builder stage
 RUN npx prisma generate --force
