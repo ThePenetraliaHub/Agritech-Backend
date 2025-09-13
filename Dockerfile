@@ -9,6 +9,9 @@ RUN npm ci --only=production
 # Copy source code + Prisma schema
 COPY . .
 
+COPY .env .env
+
+
 # ✅ Run Prisma generate at container start
 ENV NODE_ENV=production
 CMD npx prisma generate && node build/index.js
