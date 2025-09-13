@@ -33,7 +33,7 @@ jobs:
       - name: Build Docker images
         run: docker build --pull -t ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
 
-      - name: Push Docker images
+      - name: Push Docker image
         run: docker push ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
       - name: Deploy to EC2s
