@@ -31,9 +31,6 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
-# Copy environment variables
-COPY .env .env
-
 # ✅ Regenerate Prisma client inside the production image
 RUN npx prisma generate --force
 
