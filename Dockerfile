@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-WORKDIR ./src
+WORKDIR /
 
 # Install production dependencies
 COPY package*.json ./
