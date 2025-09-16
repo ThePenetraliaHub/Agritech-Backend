@@ -28,7 +28,7 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 # Build TypeScript into JavaScript
-RUN yarn build
+RUN yarn ci && yarn build
 
 
 # Stage 2: Run the app
