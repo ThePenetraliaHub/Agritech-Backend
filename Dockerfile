@@ -4,7 +4,7 @@ WORKDIR /
 
 # Install production dependencies
 COPY package*.json ./
-RUN npx ci --only=production
+RUN npm ci --only=production
 
 # Copy source code + Prisma schema
 COPY . .
@@ -12,4 +12,4 @@ COPY . .
 EXPOSE 4000
 # ✅ Run Prisma generate at container start
 ENV NODE_ENV=production
-CMD npx prisma generate && yarn ./index.ts
+CMD npx prisma generate && node build/index.js
