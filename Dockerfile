@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-WORKDIR /src
+WORKDIR ./src
 
 # Install production dependencies
 COPY package*.json ./
@@ -12,4 +12,4 @@ COPY . .
 EXPOSE 4000
 # ✅ Run Prisma generate at container start
 ENV NODE_ENV=production
-CMD npx prisma generate && node /index.ts
+CMD npx prisma generate && yarn /index.ts
