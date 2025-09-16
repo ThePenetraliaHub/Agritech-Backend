@@ -16,8 +16,6 @@ import {
 	verifyAccountSchema,
 	registerSchema,
 } from '../schemas/auth.schemas';
-import passport from 'passport';
-import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 
@@ -46,24 +44,24 @@ authRouter.put('/verify', validateRequest(verifyAccountSchema), verifyAccount);
 authRouter.put('/reset', validateRequest(resetPasswordSchema), resetPassword);
 
 // Google Strategy
-authRouter.get(
-	'/google',
-	passport.authenticate('google', { scope: ['profile', 'email'] })
-);
+// authRouter.get(
+// 	'/google',
+// 	passport.authenticate('google', { scope: ['profile', 'email'] })
+// );
 
-authRouter.get(
-	'/google/callback',
-	passport.authenticate('google', { session: false }),
-	(req, res) => {
-		const { user, token } = req.user as any;
-		res.json({
-			message: 'Login successful',
-			user,
-			token,
-		});
-		sendSuccessResponse(res, 'Login successful', { user, token });
-	}
-);
+// authRouter.get(
+// 	'/google/callback',
+// 	passport.authenticate('google', { session: false }),
+// 	(req, res) => {
+// 		const { user, token } = req.user as any;
+// 		res.json({
+// 			message: 'Login successful',
+// 			user,
+// 			token,
+// 		});
+// 		sendSuccessResponse(res, 'Login successful', { user, token });
+// 	}
+// );
 
 authRouter.get('/failure', (_req, res) => {
 	res.status(401).json({ error: 'Failed to authenticate' });
