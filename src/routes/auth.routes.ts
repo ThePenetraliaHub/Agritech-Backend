@@ -6,7 +6,7 @@ import {
 	resetPassword,
 	verifyAccount,
 	register,
-} from '../contollers/auth.controller';
+} from '../controllers/auth.controller';
 import { validateRequest } from '../middlewares/validateRequest';
 import {
 	loginSchema,
