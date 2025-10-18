@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllTreatments, getTreatmentById, recordTreatment } from '../contollers/treatment.controller';
+import { getAllTreatments, getTreatmentById, recordTreatment } from '../controllers/treatment.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { validateRequest } from '../middlewares/validateRequest';

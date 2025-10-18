@@ -4,7 +4,7 @@ import {
   createOfftake,
   getLivestockOfftakes,
   getAllOfftakes
-} from '../contollers/offtake.controller';
+} from '../controllers/offtake.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { validateRequest } from '../middlewares/validateRequest';

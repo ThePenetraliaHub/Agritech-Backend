@@ -5,7 +5,7 @@ import {
 	getProfile,
 	updateProfile,
 	getUserById,
-} from '../contollers/users.controllers';
+} from '../controllers/users.controllers';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import { updateUserSchema } from '../schemas/users.schemas';

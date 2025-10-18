@@ -6,7 +6,7 @@ import {
   getMyTasks, 
   getTask, 
   updateTaskStatus 
-} from '../contollers/task.controller';
+} from '../controllers/task.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { validateRequest } from '../middlewares/validateRequest';
