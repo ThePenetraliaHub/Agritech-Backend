@@ -1097,7 +1097,7 @@
 2025-07-14 18:45:41 [31merror[39m [31mUser not found User not found[39m
 2025-07-14 18:45:41 [32minfo[39m [32mGET /api/v1/users/assignable 404 3897.128 ms - 42[39m
 [32m[39m
-2025-07-14 18:46:08 [31merror[39m [31mTask not found or you do not have permission to view it Task not found or you do not have permission to view it[39m
+2025-07-14 18:46:08 [31merror[39m [31mTask not found Task not found[39m
 2025-07-14 18:46:08 [32minfo[39m [32mGET /api/v1/tasks/assignable 404 1135.904 ms - 83[39m
 [32m[39m
 2025-07-14 18:54:45 [31merror[39m [31mUser not found User not found[39m

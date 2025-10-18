@@ -107,7 +107,7 @@ const getTask = async (req, res, next) => {
             }
         });
         if (!task) {
-            throw new NotFoundError_1.NotFoundError('Task not found or you do not have permission to view it');
+            throw new NotFoundError_1.NotFoundError('Task not found');
         }
         (0, sendSuccessResponse_1.sendSuccessResponse)(res, 'Task retrieved successfully', { task });
     }
