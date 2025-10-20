@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.taskRouter = void 0;
 const express_1 = require("express");
-const task_controller_1 = require("../contollers/task.controller");
+const task_controller_1 = require("../controllers/task.controller");
 const errorHandler_1 = require("../middlewares/errorHandler");
 const roleCheck_1 = require("../middlewares/roleCheck");
 const validateRequest_1 = require("../middlewares/validateRequest");

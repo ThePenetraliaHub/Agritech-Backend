@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.livestockRouter = void 0;
 const express_1 = require("express");
-const livestock_controller_1 = require("../contollers/livestock.controller");
+const livestock_controller_1 = require("../controllers/livestock.controller");
 const errorHandler_1 = require("../middlewares/errorHandler");
 const validateRequest_1 = require("../middlewares/validateRequest");
 const livestock_schemas_1 = require("../schemas/livestock.schemas");
