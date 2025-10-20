@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sicknessRouter = void 0;
 const express_1 = require("express");
-const sickness_controllers_1 = require("../contollers/sickness.controllers");
+const sickness_controllers_1 = require("../controllers/sickness.controllers");
 const errorHandler_1 = require("../middlewares/errorHandler");
 const roleCheck_1 = require("../middlewares/roleCheck");
 const validateRequest_1 = require("../middlewares/validateRequest");

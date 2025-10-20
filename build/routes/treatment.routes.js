@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.treatmentRouter = void 0;
 const express_1 = require("express");
-const treatment_controller_1 = require("../contollers/treatment.controller");
+const treatment_controller_1 = require("../controllers/treatment.controller");
 const errorHandler_1 = require("../middlewares/errorHandler");
 const roleCheck_1 = require("../middlewares/roleCheck");
 const validateRequest_1 = require("../middlewares/validateRequest");
