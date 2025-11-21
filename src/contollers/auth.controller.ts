@@ -42,7 +42,7 @@ export const adminRegister = async (
 
     const hashedPassword = await hash(password);
     const verificationCode = generateVerificationCode().toString();
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx:any) => {
       // 1. Create the company first
       const company = await tx.company.create({
         data: {

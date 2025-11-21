@@ -556,7 +556,7 @@ export const getLivestockHealthHistory = async (
 
     // Combine all health records into a single timeline
     const healthHistory = [
-      ...sicknessRecords.map(record => ({
+      ...sicknessRecords.map((record: any)=> ({
         type: 'SICKNESS' as const,
         id: record.id,
         date: record.dateOfObservation,
