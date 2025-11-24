@@ -5,7 +5,7 @@ import {
   getInventoryItems,
   getInventoryRecord,
   getInventoryRecords,
-} from '../contollers/inventory.controller';
+} from '../controllers/inventory.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import {

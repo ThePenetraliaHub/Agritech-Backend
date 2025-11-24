@@ -3,27 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD
-exports.getTasksByLivestock = exports.createTaskObservation = exports.getAllAssignedTasks = exports.updateTaskStatus = exports.getTask = exports.getMyTasks = exports.createTask = void 0;
-=======
 exports.createTaskObservation = exports.getAllAssignedTasks = exports.updateTaskStatus = exports.getTask = exports.getMyTasks = exports.createTask = void 0;
->>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
 const prisma_1 = __importDefault(require("../prisma"));
 const sendSuccessResponse_1 = require("../utils/sendSuccessResponse");
 const NotFoundError_1 = require("../errors/NotFoundError");
 const ForbiddenError_1 = require("../errors/ForbiddenError");
 const selects_1 = require("../prisma/selects");
 const upload_1 = require("../config/upload");
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-const notification_helpers_1 = require("../helpers/notification.helpers");
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
-=======
->>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
 const createTask = async (req, res, next) => {
     try {
-        const { name, description, priority, dueDate, assignedToId, livestockId } = req.body;
+        const { name, description, priority, dueDate, assignedToId } = req.body;
         const assignedById = req.user.id;
         const assignedByRole = req.user.role;
         // Check if assignee exists
@@ -34,37 +23,12 @@ const createTask = async (req, res, next) => {
         if (!assignee) {
             throw new NotFoundError_1.NotFoundError('Assignee not found');
         }
-        // // Validate assignment permissions
-        // if (assignedByRole === 'FARM_KEEPER' && assignee.role !==  'COWORKER') {
-        //   throw new ForbiddenError('Farm keepers can only assign tasks to coworkers');
-        // }
-        // if (assignedByRole === 'ADMIN' && !['FARM_KEEPER', 'COWORKER'].includes(assignee.role)) {
-        //   throw new ForbiddenError('Admins can only assign tasks to farm keepers or coworkers');
-        // }
-        switch (assignedByRole) {
-            case 'FARM_KEEPER':
-                if (!['COWORKER', 'VET'].includes(assignee.role)) {
-                    throw new ForbiddenError_1.ForbiddenError('Farm keepers can only assign tasks to coworkers or vets');
-                }
-                break;
-            case 'ADMIN':
-                if (!['FARM_KEEPER', 'COWORKER', 'VET'].includes(assignee.role)) {
-                    throw new ForbiddenError_1.ForbiddenError('Admins can only assign tasks to farm keepers, coworkers, or vets');
-                }
-                break;
-            default:
-                throw new ForbiddenError_1.ForbiddenError('You do not have permission to assign tasks');
+        // Validate assignment permissions
+        if (assignedByRole === 'FARM_KEEPER' && assignee.role !== 'COWORKER') {
+            throw new ForbiddenError_1.ForbiddenError('Farm keepers can only assign tasks to coworkers');
         }
-        if (livestockId) {
-            const livestock = await prisma_1.default.livestock.findUnique({
-                where: {
-                    id: livestockId,
-                    isDeleted: false
-                }
-            });
-            if (!livestock) {
-                throw new NotFoundError_1.NotFoundError('Livestock not found or has been deleted');
-            }
+        if (assignedByRole === 'ADMIN' && !['FARM_KEEPER', 'COWORKER'].includes(assignee.role)) {
+            throw new ForbiddenError_1.ForbiddenError('Admins can only assign tasks to farm keepers or coworkers');
         }
         const task = await prisma_1.default.task.create({
             data: {
@@ -74,16 +38,13 @@ const createTask = async (req, res, next) => {
                 dueDate: new Date(dueDate),
                 status: 'PENDING',
                 assignedToId,
-                assignedById,
-                livestockId: livestockId || null,
+                assignedById
             },
             include: {
                 assignedTo: { select: selects_1.userSelect },
-                assignedBy: { select: selects_1.userSelect },
-                livestock: { select: selects_1.userSelect },
+                assignedBy: { select: selects_1.userSelect }
             }
         });
-        await notification_helpers_1.NotificationHelpers.createTaskAssignmentNotification(task, task.assignedTo);
         (0, sendSuccessResponse_1.sendSuccessResponse)(res, 'Task created successfully', { task }, 201);
     }
     catch (error) {
@@ -110,11 +71,9 @@ const getMyTasks = async (req, res, next) => {
                         select: {
                             id: true,
                             fullName: true,
-                            role: true,
-                            companyName: true
+                            role: true
                         }
-                    },
-                    livestock: true
+                    }
                 }
             }),
             prisma_1.default.task.count({ where })
@@ -144,7 +103,6 @@ const getTask = async (req, res, next) => {
             include: {
                 assignedBy: { select: selects_1.userSelect },
                 assignedTo: { select: selects_1.userSelect },
-                livestock: true,
             }
         });
         if (!task) {
@@ -196,39 +154,6 @@ const getAllAssignedTasks = async (req, res, next) => {
             ...(status && { status: status })
         };
         // Role-specific filtering
-<<<<<<< HEAD
-        // if (userRole === 'FARM_KEEPER') {
-        //   // Farm keepers can only see tasks they've assigned or tasks assigned to their coworkers
-        //   where.OR = [
-        //     { assignedById: userId },
-        //     { 
-        //       assignedTo: { 
-        //         role:{ in: ['COWORKER', 'VET'] },
-        //       } 
-        //     }
-        //   ];
-        // } 
-        switch (userRole) {
-            case 'FARM_KEEPER':
-                where.OR = [
-                    { assignedById: userId },
-                    {
-                        assignedTo: {
-                            role: { in: ['COWORKER', 'VET'] }
-                        }
-                    }
-                ];
-                break;
-            case 'ADMIN':
-                // Admin can see all tasks (no additional filtering needed)
-                break;
-            case 'VET':
-                where.assignedToId = userId;
-                break;
-            default:
-                where.assignedToId = userId;
-        }
-=======
         if (userRole === 'FARM_KEEPER') {
             // Farm keepers can only see tasks they've assigned or tasks assigned to their coworkers
             where.OR = [
@@ -241,7 +166,6 @@ const getAllAssignedTasks = async (req, res, next) => {
             ];
         }
         // Admin can see all tasks (no additional filtering needed)
->>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
         const [tasks, total] = await Promise.all([
             prisma_1.default.task.findMany({
                 where,
@@ -262,12 +186,7 @@ const getAllAssignedTasks = async (req, res, next) => {
                             fullName: true,
                             role: true
                         }
-<<<<<<< HEAD
-                    },
-                    livestock: true
-=======
                     }
->>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
                 }
             }),
             prisma_1.default.task.count({ where })
@@ -333,68 +252,3 @@ const createTaskObservation = async (req, res, next) => {
     }
 };
 exports.createTaskObservation = createTaskObservation;
-<<<<<<< HEAD
-const getTasksByLivestock = async (req, res, next) => {
-    try {
-        const { livestockId } = req.params;
-        const { page = 1, limit = 10 } = req.query;
-        // Verify livestock exists
-        const livestock = await prisma_1.default.livestock.findUnique({
-            where: {
-                id: livestockId,
-                isDeleted: false
-            }
-        });
-        if (!livestock) {
-            throw new NotFoundError_1.NotFoundError('Livestock not found');
-        }
-        const [tasks, total] = await Promise.all([
-            prisma_1.default.task.findMany({
-                where: { livestockId },
-                skip: (Number(page) - 1) * Number(limit),
-                take: Number(limit),
-                orderBy: { dueDate: 'asc' },
-                include: {
-                    assignedBy: {
-                        select: {
-                            id: true,
-                            fullName: true,
-                            role: true,
-                            companyName: true,
-                            email: true
-                        }
-                    },
-                    assignedTo: {
-                        select: {
-                            id: true,
-                            fullName: true,
-                            role: true,
-                            companyName: true,
-                            email: true
-                        }
-                    },
-                    observations: {
-                        orderBy: { reportedAt: 'desc' },
-                        take: 1
-                    }
-                }
-            }),
-            prisma_1.default.task.count({ where: { livestockId } })
-        ]);
-        (0, sendSuccessResponse_1.sendSuccessResponse)(res, 'Livestock tasks retrieved successfully', {
-            tasks,
-            pagination: {
-                page: Number(page),
-                limit: Number(limit),
-                total,
-                pages: Math.ceil(total / Number(limit))
-            }
-        });
-    }
-    catch (error) {
-        next(error);
-    }
-};
-exports.getTasksByLivestock = getTasksByLivestock;
-=======
->>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e

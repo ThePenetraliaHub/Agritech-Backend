@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.offtakeRouter = void 0;
 // routes/offtake.routes.ts
 const express_1 = require("express");
-const offtake_controller_1 = require("../contollers/offtake.controller");
+const offtake_controller_1 = require("../controllers/offtake.controller");
 const errorHandler_1 = require("../middlewares/errorHandler");
 const validateRequest_1 = require("../middlewares/validateRequest");
 const offtake_schemas_1 = require("../schemas/offtake.schemas");

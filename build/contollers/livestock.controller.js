@@ -3,13 +3,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+<<<<<<< HEAD
 exports.getLivestockActivityTimeline = exports.getLivestockHealthHistory = exports.getFarmLivestock = exports.restoreLivestock = exports.getDeletedLivestock = exports.softDeleteLivestock = exports.deleteLivestock = exports.updateLivestock = exports.getLivestockCounts = exports.getAllLivestock = exports.getLivestockById = exports.addLivestock = void 0;
+=======
+exports.restoreLivestock = exports.getDeletedLivestock = exports.softDeleteLivestock = exports.deleteLivestock = exports.updateLivestock = exports.getLivestockCounts = exports.getAllLivestock = exports.getLivestock = exports.addLivestock = void 0;
+>>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
 const prisma_1 = __importDefault(require("../prisma"));
 const sendSuccessResponse_1 = require("../utils/sendSuccessResponse");
 const NotFoundError_1 = require("../errors/NotFoundError");
 const selects_1 = require("../prisma/selects");
 const BadRequestError_1 = require("../errors/BadRequestError");
+<<<<<<< HEAD
 const ForbiddenError_1 = require("../errors/ForbiddenError");
+=======
+>>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
 const addLivestock = async (req, res, next) => {
     try {
         const { tagId, type, breed, birthDate, healthStatus, weight, gender, livestockSource, livestockPurpose } = req.body;
@@ -172,6 +179,10 @@ const updateLivestock = async (req, res, next) => {
 };
 exports.updateLivestock = updateLivestock;
 // permenant delete livestock
+<<<<<<< HEAD
+=======
+// This will remove the livestock record from the database
+>>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
 const deleteLivestock = async (req, res, next) => {
     try {
         const livestock = await prisma_1.default.livestock.findUnique({
@@ -284,6 +295,7 @@ const restoreLivestock = async (req, res, next) => {
     }
 };
 exports.restoreLivestock = restoreLivestock;
+<<<<<<< HEAD
 const getFarmLivestock = async (req, res, next) => {
     try {
         const vetId = req.user.id;
@@ -873,3 +885,5 @@ const getLivestockActivityTimeline = async (req, res, next) => {
     }
 };
 exports.getLivestockActivityTimeline = getLivestockActivityTimeline;
+=======
+>>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
