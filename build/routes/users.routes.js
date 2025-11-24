@@ -11,7 +11,10 @@ const auth_controller_1 = require("../contollers/auth.controller");
 exports.usersRouter = (0, express_1.Router)();
 exports.usersRouter.get('/profile', errorHandler_1.authenticateJWT, users_controllers_1.getProfile);
 exports.usersRouter.patch('/update', errorHandler_1.authenticateJWT, (0, validateRequest_1.validateRequest)(users_schemas_1.updateUserSchema), users_controllers_1.updateUserProfile);
+<<<<<<< HEAD
 exports.usersRouter.patch('/change-password', errorHandler_1.authenticateJWT, (0, validateRequest_1.validateRequest)(users_schemas_1.changePasswordSchema), auth_controller_1.changePassword);
+=======
+>>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
 // usersRouter.patch(
 // 	'/update',
 // 	authenticateJWT,

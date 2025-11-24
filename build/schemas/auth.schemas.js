@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+<<<<<<< HEAD
 exports.resetPasswordSchema = exports.verifyAccountSchema = exports.requestVerificationSchema = exports.loginSchema = exports.vetRegisterSchema = exports.registerSchema = exports.adminRegisterSchema = void 0;
+=======
+exports.forgotPasswordSchema = exports.resetPasswordSchema = exports.verifyAccountSchema = exports.requestVerificationSchema = exports.loginSchema = exports.vetRegisterSchema = exports.registerSchema = exports.adminRegisterSchema = void 0;
+>>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
 const zod_1 = require("zod");
 const phoneFormat_1 = require("../utils/phoneFormat");
 exports.adminRegisterSchema = zod_1.z.object({
@@ -80,5 +84,10 @@ exports.resetPasswordSchema = zod_1.z.object({
         verificationCode: zod_1.z
             .string()
             .min(4, "Verification code must be at least 4 digits long"),
+    }),
+});
+exports.forgotPasswordSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        email: zod_1.z.string().email("Invalid email format"),
     }),
 });

@@ -10,6 +10,10 @@ const NotFoundError_1 = require("../errors/NotFoundError");
 const ForbiddenError_1 = require("../errors/ForbiddenError");
 const selects_1 = require("../prisma/selects");
 const upload_1 = require("../config/upload");
+<<<<<<< HEAD
+=======
+const notification_helpers_1 = require("../helpers/notification.helpers");
+>>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
 const createTask = async (req, res, next) => {
     try {
         const { name, description, priority, dueDate, assignedToId, livestockId } = req.body;
@@ -72,6 +76,7 @@ const createTask = async (req, res, next) => {
                 livestock: { select: selects_1.userSelect },
             }
         });
+        await notification_helpers_1.NotificationHelpers.createTaskAssignmentNotification(task, task.assignedTo);
         (0, sendSuccessResponse_1.sendSuccessResponse)(res, 'Task created successfully', { task }, 201);
     }
     catch (error) {
