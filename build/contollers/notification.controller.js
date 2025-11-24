@@ -3,18 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD
-exports.updateNotificationStatus = exports.getNotifications = void 0;
-const prisma_1 = __importDefault(require("../prisma"));
-const sendSuccessResponse_1 = require("../utils/sendSuccessResponse");
-const NotFoundError_1 = require("../errors/NotFoundError");
-=======
 exports.toggleNotificationSetting = exports.updateNotificationSettings = exports.getNotificationSettings = exports.updateNotificationStatus = exports.getNotifications = void 0;
 const prisma_1 = __importDefault(require("../prisma"));
 const sendSuccessResponse_1 = require("../utils/sendSuccessResponse");
 const NotFoundError_1 = require("../errors/NotFoundError");
 const BadRequestError_1 = require("../errors/BadRequestError");
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
 const getNotifications = async (req, res, next) => {
     try {
         const userId = req.user.id;
@@ -86,8 +79,6 @@ const updateNotificationStatus = async (req, res, next) => {
     }
 };
 exports.updateNotificationStatus = updateNotificationStatus;
-<<<<<<< HEAD
-=======
 const getNotificationSettings = async (req, res, next) => {
     try {
         const userId = req.user.id;
@@ -192,4 +183,3 @@ const toggleNotificationSetting = async (req, res, next) => {
     }
 };
 exports.toggleNotificationSetting = toggleNotificationSetting;
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc

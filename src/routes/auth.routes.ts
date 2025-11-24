@@ -1,16 +1,16 @@
 import { Router } from 'express';
-import {
-	login,
-	adminRegister,
-	requestVerificationCode,
-	resetPassword,
-	verifyAccount,
-	register,
-	vetRegister,
-	vetLogin,
-	forgotPassword,
-	changePassword,
-} from '../controllers/auth.controllers';
+// import {
+// 	login,
+// 	adminRegister,
+// 	requestVerificationCode,
+// 	resetPassword,
+// 	verifyAccount,
+// 	register,
+// 	vetRegister,
+// 	vetLogin,
+// 	forgotPassword,
+// 	changePassword,
+// } from '../controllers/auth.controllers';
 import { validateRequest } from '../middlewares/validateRequest';
 import {
 	loginSchema,
@@ -25,6 +25,7 @@ import {
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { changePasswordSchema } from '../schemas/users.schemas';
+import { adminRegister, changePassword, forgotPassword, login, register, requestVerificationCode, resetPassword, verifyAccount, vetLogin, vetRegister } from '../controllers/auth.controller';
 
 export const authRouter = Router();
 

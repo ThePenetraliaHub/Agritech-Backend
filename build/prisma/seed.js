@@ -1,37 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD
-// Updated seed script
-const client_1 = require("@prisma/client");
-const argon2_1 = require("argon2");
-const prisma = new client_1.PrismaClient();
-// ... rest of your interfaces remain the same
-async function main() {
-    console.log('🌱 Starting seed...');
-    // Clear existing data in correct order to handle foreign key constraints
-    console.log('🗑️ Clearing existing data...');
-    await prisma.taskObservation.deleteMany();
-    await prisma.appointmentReminder.deleteMany();
-    await prisma.appointment.deleteMany();
-    await prisma.farmVisit.deleteMany();
-    await prisma.followUpReminder.deleteMany();
-    await prisma.followUp.deleteMany();
-    await prisma.treatmentReminder.deleteMany();
-    await prisma.prescribedTreatment.deleteMany();
-    await prisma.notification.deleteMany();
-    await prisma.treatment.deleteMany();
-    await prisma.sickness.deleteMany();
-    await prisma.vaccination.deleteMany();
-    await prisma.offtakeRecord.deleteMany();
-    await prisma.diagnosis.deleteMany();
-    await prisma.task.deleteMany();
-    await prisma.livestock.deleteMany();
-    await prisma.inventoryRecord.deleteMany();
-    await prisma.inventory.deleteMany();
-    await prisma.financialTransaction.deleteMany();
-    await prisma.user.deleteMany();
-    await prisma.company.deleteMany();
-=======
 const client_1 = require("@prisma/client");
 const argon2_1 = require("argon2");
 const prisma = new client_1.PrismaClient();
@@ -61,7 +29,6 @@ async function main() {
     // await prisma.financialTransaction.deleteMany();
     // await prisma.user.deleteMany();
     // await prisma.company.deleteMany();
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
     console.log('🏢 Creating companies and users...');
     const companiesData = [
         {
@@ -242,10 +209,7 @@ async function main() {
     const symptoms = ['Fever', 'Coughing', 'Diarrhea', 'Loss of appetite', 'Lethargy', 'Lameness', 'Respiratory distress'];
     const causes = ['Bacterial infection', 'Viral infection', 'Parasites', 'Nutritional deficiency', 'Injury', 'Unknown'];
     const sickLivestock = createdLivestock.filter(l => l.healthStatus === 'SICK' || l.healthStatus === 'CRITICAL' || l.healthStatus === 'IN_TREATMENT').slice(0, 15);
-<<<<<<< HEAD
-=======
     const createdSickness = [];
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
     for (const livestock of sickLivestock) {
         const recordedBy = createdUsers.find(u => u.companyId === livestock.companyId &&
             u.role === 'FARM_KEEPER');
@@ -262,10 +226,7 @@ async function main() {
         const sickness = await prisma.sickness.create({
             data: sicknessData
         });
-<<<<<<< HEAD
-=======
         createdSickness.push(sickness);
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
         // Create treatment for some sickness records
         if (Math.random() > 0.3) {
             const treatmentData = {
@@ -284,8 +245,6 @@ async function main() {
             });
         }
     }
-<<<<<<< HEAD
-=======
     console.log('🩺 Creating diagnoses...');
     const diagnoses = ['Bacterial Pneumonia', 'Parasitic Infection', 'Nutritional Deficiency', 'Viral Infection', 'Metabolic Disorder'];
     for (const livestock of sickLivestock.slice(0, 10)) {
@@ -322,7 +281,6 @@ async function main() {
             data: prescribedTreatmentData
         });
     }
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
     console.log('📋 Creating tasks...');
     const taskNames = [
         'Routine Health Check',
@@ -338,10 +296,7 @@ async function main() {
     ];
     const priorities = ['LOW', 'MEDIUM', 'HIGH'];
     const statuses = ['PENDING', 'IN_PROGRESS', 'COMPLETED'];
-<<<<<<< HEAD
-=======
     const createdTasks = [];
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
     for (const company of createdCompanies) {
         const companyUsers = createdUsers.filter(u => u.companyId === company.id);
         const companyAdmin = companyUsers.find(u => u.role === 'ADMIN');
@@ -370,10 +325,7 @@ async function main() {
             const task = await prisma.task.create({
                 data: taskData
             });
-<<<<<<< HEAD
-=======
             createdTasks.push(task);
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
             // Add observations for some tasks
             if (Math.random() > 0.6) {
                 await prisma.taskObservation.create({
@@ -456,9 +408,6 @@ async function main() {
             });
         }
     }
-<<<<<<< HEAD
-    // Create some appointments
-=======
     console.log('📤 Creating offtake records...');
     for (const livestock of createdLivestock.slice(0, 10)) {
         const recordedBy = createdUsers.find(u => u.companyId === livestock.companyId &&
@@ -483,7 +432,6 @@ async function main() {
             data: offtakeData
         });
     }
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
     console.log('📅 Creating appointments...');
     for (const company of createdCompanies.slice(0, 2)) {
         const vet = createdUsers.find(u => u.role === 'VET');
@@ -508,32 +456,6 @@ async function main() {
             data: appointmentData
         });
     }
-<<<<<<< HEAD
-    console.log('✅ Seed completed successfully!');
-    // console.log(`\n📊 Seed Summary:`);
-    // console.log(`   Companies: ${createdCompanies.length}`);
-    // console.log(`   Users: ${createdUsers.length}`);
-    // console.log(`   Livestock: ${createdLivestock.length}`);
-    // console.log(`   Tasks: ~24 (8 per company)`);
-    // console.log(`   Vaccinations: 30`);
-    // console.log(`   Sickness Records: ~15`);
-    // console.log(`   Inventory Items: ~24 (8 per company)`);
-    // console.log(`   Financial Transactions: 30 (10 per company)`);
-    // console.log(`   Appointments: 2`);
-    // console.log('\n🔑 Test Credentials:');
-    // console.log('   All passwords: "password123"');
-    // console.log('\n   Company Admins:');
-    // console.log('     - admin@greenvalleyfarm.com (Green Valley Farm)');
-    // console.log('     - admin@sunriseranch.com (Sunrise Ranch)');
-    // console.log('     - admin@mountainviewfarm.com (Mountain View Farm)');
-    // console.log('\n   Vets:');
-    // console.log('     - vet.drbrown@animalclinic.com');
-    // console.log('     - vet.drjohnson@vetcare.com');
-}
-main()
-    .catch((e) => {
-    console.error('Seed failed:', e);
-=======
     console.log('🏥 Creating farm visits...');
     for (const company of createdCompanies.slice(0, 2)) {
         const vet = createdUsers.find(u => u.role === 'VET');
@@ -616,7 +538,6 @@ main()
 main()
     .catch((e) => {
     console.error('❌ Seed failed:', e);
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
     process.exit(1);
 })
     .finally(async () => {

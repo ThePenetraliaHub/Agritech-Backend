@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
-import { getNotifications, getNotificationSettings, toggleNotificationSetting, updateNotificationSettings, updateNotificationStatus } from '../contollers/notification.controller';
+// import { getNotifications, getNotificationSettings, toggleNotificationSetting, updateNotificationSettings, updateNotificationStatus } from '../contollers/notification.controller';
 import { updateNotificationStatusSchema } from '../schemas/treatment.schemas';
 import { updateNotificationSettingsSchema } from '../schemas/notification.schemas';
+import { getNotifications, getNotificationSettings, toggleNotificationSetting, updateNotificationSettings, updateNotificationStatus } from '../controllers/notification.controller';
 
 export const notificationRouter = Router();
 

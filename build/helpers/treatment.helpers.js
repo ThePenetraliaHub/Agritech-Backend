@@ -5,10 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreatmentHelpers = void 0;
 // src/helpers/treatment.helpers.ts
-<<<<<<< HEAD
-=======
-const notification_services_1 = require("../services/notification.services");
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
 const prisma_1 = __importDefault(require("../prisma"));
 const client_1 = require("@prisma/client");
 class TreatmentHelpers {
@@ -238,14 +234,6 @@ class TreatmentHelpers {
                 }
             });
             if (farmStaff.length === 0) {
-<<<<<<< HEAD
-                console.log(`ℹNo farm staff found to notify for ${followUp.relatedFarm}`);
-                return;
-            }
-            // Create properly typed notification data
-            const notifications = farmStaff.map(staff => {
-                const notificationData = {
-=======
                 console.log(`No farm staff found to notify for ${followUp.relatedFarm}`);
                 return;
             }
@@ -279,7 +267,6 @@ class TreatmentHelpers {
                 //   return notificationData;
                 // });
                 await notification_services_1.NotificationService.createNotification({
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
                     title: 'Veterinary Follow-up Scheduled',
                     message: `Dr. ${followUp.recordedBy.fullName} has scheduled a follow-up for ${animal.tagId} on ${followUp.date.toLocaleDateString()} at ${followUp.location}`,
                     type: client_1.NotificationType.FOLLOW_UP_REMINDER,
@@ -296,20 +283,11 @@ class TreatmentHelpers {
                         location: followUp.location,
                         vetName: followUp.recordedBy.fullName
                     }
-<<<<<<< HEAD
-                };
-                return notificationData;
-            });
-            await prisma_1.default.notification.createMany({
-                data: notifications
-            });
-=======
                 });
             }
             // await prisma.notification.createMany({
             //   data: notifications
             // });
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
             console.log(`Notified ${farmStaff.length} farm staff about follow-up for ${animal.tagId}`);
         }
         catch (error) {

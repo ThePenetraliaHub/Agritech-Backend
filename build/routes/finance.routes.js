@@ -2,11 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.financeRouter = void 0;
 const express_1 = require("express");
-<<<<<<< HEAD
 const finance_controller_1 = require("../contollers/finance.controller");
-=======
-const finance_controller_1 = require("../controllers/finance.controller");
->>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
 const errorHandler_1 = require("../middlewares/errorHandler");
 const validateRequest_1 = require("../middlewares/validateRequest");
 const finance_schemas_1 = require("../schemas/finance.schemas");

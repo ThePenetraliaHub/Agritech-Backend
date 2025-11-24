@@ -13,20 +13,12 @@ exports.livestockRouter.get('/counts', errorHandler_1.authenticateJWT, livestock
 exports.livestockRouter.get('/', errorHandler_1.authenticateJWT, livestock_controller_1.getAllLivestock);
 exports.livestockRouter.get('/:livestockId', errorHandler_1.authenticateJWT, livestock_controller_1.getLivestockById);
 exports.livestockRouter.patch('/:livestockId', errorHandler_1.authenticateJWT, (0, validateRequest_1.validateRequest)(livestock_schemas_1.updateLivestockSchema), livestock_controller_1.updateLivestock);
-<<<<<<< HEAD
-=======
-// permanent delete livestock
->>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e
 exports.livestockRouter.delete('/:livestockId', errorHandler_1.authenticateJWT, (0, roleCheck_1.requireRoles)(['ADMIN', 'FARM_KEEPER']), livestock_controller_1.deleteLivestock);
 // softdelete livestock 
 exports.livestockRouter.delete('/:livestockId/soft-delete', errorHandler_1.authenticateJWT, (0, validateRequest_1.validateRequest)(livestock_schemas_1.deleteLivestockSchema), livestock_controller_1.softDeleteLivestock);
 // Admin-only routes
 exports.livestockRouter.get('/deleted/all', errorHandler_1.authenticateJWT, (0, roleCheck_1.requireRoles)(['ADMIN']), livestock_controller_1.getDeletedLivestock);
-<<<<<<< HEAD
 exports.livestockRouter.get('/:livestockId/health-history', errorHandler_1.authenticateJWT, livestock_controller_1.getLivestockHealthHistory);
 exports.livestockRouter.get('/:livestockId/activity-timeline', errorHandler_1.authenticateJWT, livestock_controller_1.getLivestockActivityTimeline);
 exports.livestockRouter.patch('/:livestockId/restore', errorHandler_1.authenticateJWT, (0, roleCheck_1.requireRoles)(['ADMIN']), livestock_controller_1.restoreLivestock);
 exports.livestockRouter.get('/vet/farm/:companyId', errorHandler_1.authenticateJWT, (0, roleCheck_1.requireRoles)(['VET']), livestock_controller_1.getFarmLivestock);
-=======
-exports.livestockRouter.patch('/:livestockId/restore', errorHandler_1.authenticateJWT, (0, roleCheck_1.requireRoles)(['ADMIN']), livestock_controller_1.restoreLivestock);
->>>>>>> 7ed02724cb57ed520de649f519d9bcc3b6d7a17e

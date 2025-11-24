@@ -564,7 +564,7 @@ export const getLivestockHealthHistory = async (
         details: record,
         recordedBy: record.recordedBy
       })),
-      ...treatmentRecords.map(record => ({
+      ...treatmentRecords.map((record: any)=> ({
         type: 'TREATMENT' as const,
         id: record.id,
         date: record.dateOfTreatment,
@@ -572,7 +572,7 @@ export const getLivestockHealthHistory = async (
         details: record,
         recordedBy: record.recordedBy
       })),
-      ...vaccinationRecords.map(record => ({
+      ...vaccinationRecords.map((record: any) => ({
         type: 'VACCINATION' as const,
         id: record.id,
         date: record.dateofVaccination,
@@ -809,7 +809,7 @@ export const getLivestockActivityTimeline = async (
     // Transform all records into a unified timeline
     const activityTimeline = [
 
-      ...prescribedTreatments.map(treatment => ({
+      ...prescribedTreatments.map((treatment:any)=> ({
         type: 'PRESCRIBED_TREATMENT' as const,
         id: treatment.id,
         date: treatment.createdAt,
@@ -830,7 +830,7 @@ export const getLivestockActivityTimeline = async (
         entity: treatment
       })),
 
-      ...diagnosisRecords.map(record => ({
+      ...diagnosisRecords.map((record:any) => ({
         type: 'DIAGNOSIS' as const,
         id: record.id,
         date: record.date,
@@ -847,7 +847,7 @@ export const getLivestockActivityTimeline = async (
         entity: record
       })),
       // Sickness activities
-      ...sicknessRecords.map(record => ({
+      ...sicknessRecords.map((record:any) => ({
         type: 'SICKNESS_REPORTED' as const,
         id: record.id,
         date: record.dateOfObservation,
@@ -864,7 +864,7 @@ export const getLivestockActivityTimeline = async (
       })),
 
       // Treatment activities
-      ...treatmentRecords.map(record => ({
+      ...treatmentRecords.map((record:any) => ({
         type: record.sicknessId ? 'TREATMENT_ADMINISTERED' : 'PREVENTIVE_TREATMENT' as const,
         id: record.id,
         date: record.dateOfTreatment,
@@ -883,7 +883,7 @@ export const getLivestockActivityTimeline = async (
       })),
 
       // Vaccination activities
-      ...vaccinationRecords.map(record => ({
+      ...vaccinationRecords.map((record:any) => ({
         type: 'VACCINATION' as const,
         id: record.id,
         date: record.dateofVaccination,
@@ -900,7 +900,7 @@ export const getLivestockActivityTimeline = async (
       })),
 
       // Task activities
-      ...taskRecords.map(record => ({
+      ...taskRecords.map((record:any) => ({
         type: 'TASK_CREATED' as const,
         id: record.id,
         date: record.createdAt,
@@ -920,7 +920,7 @@ export const getLivestockActivityTimeline = async (
       })),
 
       // Task observation activities
-      ...taskObservations.map(record => ({
+      ...taskObservations.map((record:any) => ({
         type: 'TASK_OBSERVATION' as const,
         id: record.id,
         date: record.reportedAt,
@@ -936,7 +936,7 @@ export const getLivestockActivityTimeline = async (
       })),
 
       // Offtake activities
-      ...offtakeRecords.map(record => ({
+      ...offtakeRecords.map((record:any) => ({
         type: 'OFFTAKE' as const,
         id: record.id,
         date: record.dateOfEvent,

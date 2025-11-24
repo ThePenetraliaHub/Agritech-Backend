@@ -1,19 +1,20 @@
 import { Router } from 'express';
-import {
-	deleteUser,
-	getAllUsers,
-	getProfile,
-	// updateProfile,
-	getUserById,
-	updateUserProfile,
-	adminUpdateUser,
-	getFarmDetails,
-	getVetAssignedFarms,
-} from '../contollers/users.controllers';
+// import {
+// 	deleteUser,
+// 	getAllUsers,
+// 	getProfile,
+// 	// updateProfile,
+// 	getUserById,
+// 	updateUserProfile,
+// 	adminUpdateUser,
+// 	getFarmDetails,
+// 	getVetAssignedFarms,
+// } from '../contollers/users.controllers';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import { adminUpdateUserSchema, changePasswordSchema, updateUserSchema } from '../schemas/users.schemas';
 import { requireRoles } from '../middlewares/roleCheck';
+import { adminUpdateUser, deleteUser, getAllUsers, getFarmDetails, getProfile, getUserById, getVetAssignedFarms, updateUserProfile } from '../controllers/users.controllers';
 
 export const usersRouter = Router();
 

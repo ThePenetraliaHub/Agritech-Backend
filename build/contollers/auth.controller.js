@@ -36,11 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD
-exports.changePassword = exports.resetPassword = exports.verifyAccount = exports.requestVerificationCode = exports.login = exports.vetLogin = exports.vetRegister = exports.register = exports.adminRegister = void 0;
-=======
 exports.forgotPassword = exports.resetPassword = exports.changePassword = exports.verifyAccount = exports.requestVerificationCode = exports.login = exports.vetLogin = exports.vetRegister = exports.register = exports.adminRegister = void 0;
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
 const prisma_1 = __importDefault(require("../prisma"));
 const generateToken_1 = __importStar(require("../utils/generateToken"));
 const argon2_1 = require("argon2");
@@ -459,6 +455,7 @@ const changePassword = async (req, res, next) => {
     }
 };
 exports.changePassword = changePassword;
+
 const resetPassword = async (req, res, next) => {
     const { email, password, confirmPassword, verificationCode } = req.body;
     try {
@@ -496,41 +493,6 @@ const resetPassword = async (req, res, next) => {
     }
 };
 exports.resetPassword = resetPassword;
-<<<<<<< HEAD
-const changePassword = async (req, res, next) => {
-    try {
-        const userId = req.user.id;
-        const { currentPassword, newPassword, confirmPassword } = req.body;
-        // Validate new password confirmation
-        if (newPassword !== confirmPassword) {
-            throw new BadRequestError_1.BadRequestError('New password and confirmation do not match');
-        }
-        // Validate new password length
-        if (newPassword.length < 8) {
-            throw new BadRequestError_1.BadRequestError('New password must be at least 8 characters long');
-        }
-        // Get user with password
-        const user = await prisma_1.default.user.findUnique({
-            where: { id: userId },
-            select: { ...selects_1.userSelect, password: true }
-        });
-        if (!user) {
-            throw new NotFoundError_1.NotFoundError('User not found');
-        }
-        // Verify current password
-        const isCurrentPasswordValid = await (0, argon2_1.verify)(user.password || "$passwordless", currentPassword);
-        if (!isCurrentPasswordValid) {
-            throw new UnauthorizedError_1.UnauthorizedError('Current password is incorrect');
-        }
-        // Hash new password
-        const hashedNewPassword = await (0, argon2_1.hash)(newPassword);
-        // Update password
-        await prisma_1.default.user.update({
-            where: { id: userId },
-            data: { password: hashedNewPassword }
-        });
-        (0, sendSuccessResponse_1.sendSuccessResponse)(res, 'Password changed successfully');
-=======
 const forgotPassword = async (req, res, next) => {
     try {
         const { email } = req.body;
@@ -560,14 +522,9 @@ const forgotPassword = async (req, res, next) => {
             await (0, mail_services_1.sendCustomMail)(mailOptions);
         }
         (0, sendSuccessResponse_1.sendSuccessResponse)(res, "If an account with that email exists, a password reset link has been sent.");
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
     }
     catch (error) {
         next(error);
     }
 };
-<<<<<<< HEAD
-exports.changePassword = changePassword;
-=======
 exports.forgotPassword = forgotPassword;
->>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
