@@ -2,14 +2,14 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install production dependencies
+# Install all dependencies (including dev for Prisma)
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy source code + Prisma schema
 COPY . .
 
 EXPOSE 5000
-# ✅ Run Prisma generate at container start
+# ✅ Run Prisma generate and seed at container start
 ENV NODE_ENV=production
-CMD npx prisma generate && node build/index.js
+CMD npx prisma generate && npm run prisma:seed && node build/index.js
