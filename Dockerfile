@@ -10,6 +10,6 @@ RUN npm ci
 COPY . .
 
 EXPOSE 5000
-# ✅ Run Prisma generate and seed at container start
+# ✅ Run Prisma generate, migrate, and seed at container start
 ENV NODE_ENV=production
-CMD npx prisma generate && npm run prisma:seed && node build/index.js
+CMD npx prisma generate && npx prisma migrate deploy && npm run prisma:seed && node build/index.js
