@@ -25,6 +25,7 @@ export const addLivestock = async (
     } = req.body;
     
     const addedById = (req.user as any).id;
+    const { companyId } = req.params;
 
     const livestock = await prisma.livestock.create({
       data: {
@@ -38,9 +39,10 @@ export const addLivestock = async (
         livestockSource,
         livestockPurpose,
         addedById,
+        companyId,
       },
       include: {
-        addedBy: { select: userSelect}, // Include the user who added the livestock
+        addedBy: { select: userSelect}, 
       },
     });
 
@@ -85,7 +87,9 @@ export const getAllLivestock = async (
 ): Promise<void> => {
   try {
     const { page = 1, limit = 10, type } = req.query;
+    const currentUser = (req.user as any);
     const where = { 
+        companyId: currentUser.companyId,
         isDeleted: false,
       ...(type && { type: String(type) }) 
     };
@@ -142,9 +146,11 @@ export const getLivestockCounts = async (
   next: NextFunction
 ): Promise<void> => {
    try {
+    const currentUser = (req.user as any);
     const [totalLivestock, sickLivestock] = await Promise.all([
       prisma.livestock.count({
         where: { 
+          companyId: currentUser.companyId,
           isDeleted: false
         }
       }),
@@ -177,10 +183,14 @@ export const updateLivestock = async (
 ): Promise<void> => {
   try {
     const livestockId = req.params.livestockId;
+    const currentUser = (req.user as any);
     const updateData = req.body;
     const updatedById = (req.user as any).id;
     const existingLivestock = await prisma.livestock.findUnique({
-      where: { id: livestockId }
+      where: {
+        id: livestockId,
+        companyId: currentUser.companyId
+      }
     });
 
     if (!existingLivestock) {
@@ -212,8 +222,12 @@ export const deleteLivestock = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+      const currentUser = (req.user as any);
     const livestock = await prisma.livestock.findUnique({
-      where: { id: req.params.livestockId },
+      where: { 
+        id: req.params.livestockId,
+        companyId: currentUser.companyId 
+      },
     });
 
     if (!livestock) throw new NotFoundError('Livestock not found');
@@ -526,7 +540,16 @@ export const getLivestockHealthHistory = async (
               id: true,
               dateOfObservation: true,
               observedSymptoms: true
-            }
+            },
+             include: {
+              recordedBy: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  role: true
+                }
+              }
+            },
           }
         },
         orderBy: {

@@ -9,9 +9,14 @@ const validateRequest_1 = require("../middlewares/validateRequest");
 const task_schemas_1 = require("../schemas/task.schemas");
 const upload_1 = require("../config/upload");
 const router = (0, express_1.Router)();
+<<<<<<< HEAD
 router.post('/', errorHandler_1.authenticateJWT, (0, roleCheck_1.requireRoles)(['ADMIN', 'FARM_KEEPER']), (0, validateRequest_1.validateRequest)(task_schemas_1.createTaskSchema), task_controller_1.createTask);
 router.post('/:taskId/observations', errorHandler_1.authenticateJWT, upload_1.upload.array('media', 5), // Max 5 files
 (0, validateRequest_1.validateRequest)(task_schemas_1.createTaskObservationSchema), task_controller_1.createTaskObservation);
+=======
+router.post('/:companyId', errorHandler_1.authenticateJWT, (0, roleCheck_1.requireRoles)(['ADMIN', 'FARM_KEEPER']), (0, validateRequest_1.validateRequest)(task_schemas_1.createTaskSchema), task_controller_1.createTask);
+router.post('/:taskId/observations', errorHandler_1.authenticateJWT, upload_1.upload.array('media', 5), (0, validateRequest_1.validateRequest)(task_schemas_1.createTaskObservationSchema), task_controller_1.createTaskObservation);
+>>>>>>> 82cdd2a9a0440413d0b24c05dfc3f01e4a86cfb0
 router.get('/my-tasks', errorHandler_1.authenticateJWT, task_controller_1.getMyTasks);
 router.get('/:taskId', errorHandler_1.authenticateJWT, task_controller_1.getTask);
 router.patch('/:taskId/status', errorHandler_1.authenticateJWT, (0, validateRequest_1.validateRequest)(task_schemas_1.updateTaskStatusSchema), task_controller_1.updateTaskStatus);
