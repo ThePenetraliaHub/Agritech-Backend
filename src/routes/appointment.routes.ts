@@ -5,7 +5,7 @@ import {
   logFarmVisit,
   getAppointments,
   getFarmVisits
-} from '../contollers/appointment.controller';
+} from '../controllers/appointment.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import {
