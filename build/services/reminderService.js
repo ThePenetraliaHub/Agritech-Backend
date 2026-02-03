@@ -526,6 +526,7 @@ exports.ReminderService = ReminderService;
     }
 }
 exports.ReminderService = ReminderService;
+<<<<<<< HEAD
 // // src/services/reminder.service.ts
 // import prisma from '../prisma';
 // import { NotificationType, NotificationStatus } from '@prisma/client';
@@ -797,3 +798,5 @@ exports.ReminderService = ReminderService;
 //   }
 // }
 >>>>>>> 6e6921aacfe9ca80b94607b2b6421eda834b00dc
+=======
+>>>>>>> 0faa8d113ef180749b48b8c253627d455ac4b90f
