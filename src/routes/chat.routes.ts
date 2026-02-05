@@ -21,7 +21,7 @@ import {
   startCall,
   endCall,
   answerCall
-} from '../contollers/chat.controller';
+} from '../controllers/chat.controller'; 
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { validateRequest } from '../middlewares/validateRequest';
