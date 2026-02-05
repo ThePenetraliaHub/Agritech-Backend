@@ -10,6 +10,7 @@ import {
 	getVetAssignedFarms,
 	getAllVets,
 } from '../controllers/users.controllers';
+>>>>>>> d1743b44ee62dce3738d8443cd50ad9594062762
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import { adminUpdateUserSchema, updateUserSchema } from '../schemas/users.schemas';

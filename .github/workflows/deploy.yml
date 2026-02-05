@@ -33,7 +33,7 @@ jobs:
         run: docker images
 
       # 🏗 Build Docker image (no cache)
-      - name: Build Docker image
+      - name: Build Docker images
         run: |
           docker build --no-cache --pull \
             -t ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
@@ -41,7 +41,7 @@ jobs:
           docker tag ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} \
             ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
 
-      - name: Push Docker image
+      - name: Push Docker images
         run: |
           docker push ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
           docker push ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
