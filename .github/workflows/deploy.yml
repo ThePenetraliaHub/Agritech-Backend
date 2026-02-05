@@ -33,7 +33,7 @@ jobs:
         run: docker images
 
       # 🏗 Build Docker image (no cache)
-      - name: Build Docker image
+      - name: Build Docker images
         run: |
           docker build --no-cache --pull \
             -t ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
