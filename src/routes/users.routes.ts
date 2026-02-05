@@ -10,12 +10,8 @@ import {
 	getFarmDetails,
 	getVetAssignedFarms,
 	getAllVets,
-<<<<<<< HEAD
-} from '../controllers/users.controllers';
-=======
 	updateUserAvatar,
 } from '../contollers/users.controllers';
->>>>>>> 0faa8d113ef180749b48b8c253627d455ac4b90f
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import { adminUpdateUserSchema, changePasswordSchema, updateUserSchema } from '../schemas/users.schemas';
