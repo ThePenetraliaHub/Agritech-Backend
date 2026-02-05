@@ -1,27 +1,4 @@
 import { Router } from 'express';
-// import {
-//   sendVetRequest,
-//   acceptVetRequest,
-//   rejectVetRequest,
-//   getVetRequests,
-//   getConversations,
-//   getMessages,
-//   getConversation,
-//   updateConversation,
-//   deleteConversation,
-//   addParticipants,
-//   removeParticipant,
-//   createConversation,
-//   getAvailableChatUsers,
-//   createMessage,
-//   markMessagesAsRead,
-//   addReaction,
-//   editMessage,
-//   deleteMessage,
-//   startCall,
-//   endCall,
-//   answerCall
-// } from '../contollers/chat.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { validateRequest } from '../middlewares/validateRequest';
