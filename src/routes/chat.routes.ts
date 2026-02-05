@@ -17,8 +17,7 @@ import {
   endCallSchema,
   answerCallSchema
 } from '../schemas/chat.schemas';
-import { acceptVetRequest, addParticipants, addReaction, answerCall, createConversation, createMessage, deleteConversation, deleteMessage, editMessage, endCall, getAvailableChatUsers, getConversation, getConversations, getMessages, getVetRequests, markMessagesAsRead, rejectVetRequest, removeParticipant, sendVetRequest, startCall, updateConversation } from '../contollers/chat.controller';
-
+import { acceptVetRequest, addParticipants, addReaction, answerCall, createConversation, createMessage, deleteConversation, deleteMessage, editMessage, endCall, getAvailableChatUsers, getConversation, getConversations, getMessages, getVetRequests, markMessagesAsRead, rejectVetRequest, removeParticipant, sendVetRequest, startCall, updateConversation } from '../controllers/chat.controller';
 export const chatRouter = Router();
 
 
