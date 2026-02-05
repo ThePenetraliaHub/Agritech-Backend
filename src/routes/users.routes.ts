@@ -3,22 +3,16 @@ import {
 	deleteUser,
 	getAllUsers,
 	getProfile,
-	// updateProfile,
 	getUserById,
 	updateUserProfile,
 	adminUpdateUser,
 	getFarmDetails,
 	getVetAssignedFarms,
 	getAllVets,
-<<<<<<< HEAD
 } from '../controllers/users.controllers';
-=======
-	updateUserAvatar,
-} from '../contollers/users.controllers';
->>>>>>> 0faa8d113ef180749b48b8c253627d455ac4b90f
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
-import { adminUpdateUserSchema, changePasswordSchema, updateUserSchema } from '../schemas/users.schemas';
+import { adminUpdateUserSchema, updateUserSchema } from '../schemas/users.schemas';
 import { requireRoles } from '../middlewares/roleCheck';
 import { upload } from '../config/upload';
 
