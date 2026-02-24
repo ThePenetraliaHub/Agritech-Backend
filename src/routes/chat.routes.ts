@@ -17,7 +17,12 @@ import {
   endCallSchema,
   answerCallSchema
 } from '../schemas/chat.schemas';
+<<<<<<< HEAD
 import { acceptVetRequest, addParticipants, addReaction, answerCall, createConversation, createMessage, deleteConversation, deleteMessage, editMessage, endCall, getAvailableChatUsers, getConversation, getConversations, getMessages, getVetRequests, markMessagesAsRead, rejectVetRequest, removeParticipant, sendVetRequest, startCall, updateConversation } from '../controllers/chat.controller';
+=======
+import { acceptVetRequest, addParticipants, addReaction, answerCall, createConversation, createMessage, deleteConversation, deleteMessage, editMessage, endCall, getAvailableChatUsers, getCompanyUsersForVet, getConversation, getConversations, getMessages, getVetRequests, markMessagesAsRead, rejectVetRequest, removeParticipant, sendVetRequest, startCall, updateConversation } from '../contollers/chat.controller';
+
+>>>>>>> 1ad2da4ca5b21585f4635dfd7fede0c020b7c2c0
 export const chatRouter = Router();
 
 
@@ -109,6 +114,12 @@ chatRouter.get(
   '/available-users',
   authenticateJWT,
   getAvailableChatUsers
+);
+
+chatRouter.get(
+  '/available-company-users',
+  authenticateJWT,
+  getCompanyUsersForVet
 );
 
 chatRouter.post(
