@@ -4,7 +4,7 @@ import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { NotFoundError } from '../errors/NotFoundError';
 import { userSelect } from '../prisma/selects';
 import { ForbiddenError } from '../errors/ForbiddenError';
-import { Role } from '@prisma/client';
+import { Role   } from '@prisma/client';
 import { normalizePhoneNumber, validatePhoneNumber } from '../utils/phoneFormat';
 import { BadRequestError } from '../errors/BadRequestError';
 import { getVetStatistics } from '../helpers/vet.helpers';
@@ -23,8 +23,6 @@ export const getProfile = async (
 		});
 
 		if (!user) throw new NotFoundError('User not found');
-
-		// user.password = '';
 		sendSuccessResponse(res, 'Profile successfully retrieved', user);
 	} catch (error) {
 		next(error);
@@ -61,6 +59,62 @@ export const getProfile = async (
 //   }
 // };
 
+// export const getAllUsers = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const requestingUser = (req as any).user; 
+//     const { page = 1, limit = 10 } = req.query;
+//     const currentUser = (req.user as any);
+
+//     // Determine which   s the current user can access
+//     let allowedRoles: Role[] = [];
+    
+//     if (requestingUser.role === 'ADMIN') {
+//       allowedRoles = ['FARM_KEEPER', 'COWORKER'];
+//     } else if (requestingUser.role === 'FARM_KEEPER') {
+//       allowedRoles = ['COWORKER'];
+//     } else {
+//       throw new ForbiddenError('You do not have permission to view users');
+//     }
+
+//     const where = {
+//       role: { in: allowedRoles },
+//       id: { not: requestingUser.id } 
+//     };
+
+//     const [users, total] = await Promise.all([
+//       prisma.user.findMany({
+//          where: { 
+//           companyId: currentUser.companyId,
+//           ...where
+//         },
+//         skip: (Number(page) - 1) * Number(limit),
+//         take: Number(limit),
+//         select: userSelect,
+//         orderBy: { createdAt: 'desc' },
+//       }),
+//       prisma.user.count({ where })
+//     ]);
+
+//     sendSuccessResponse(res, 'Users retrieved successfully', {
+//       users,
+//       pagination: {
+//         page: Number(page),
+//         limit: Number(limit),
+//         total,
+//         pages: Math.ceil(total / Number(limit))
+//       }
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
+
 export const getAllUsers = async (
   req: Request,
   res: Response,
@@ -82,38 +136,79 @@ export const getAllUsers = async (
       throw new ForbiddenError('You do not have permission to view users');
     }
 
-    const where = {
+    // Get farm users (existing functionality)
+    const farmUsersWhere = {
       role: { in: allowedRoles },
-      id: { not: requestingUser.id } 
+      id: { not: requestingUser.id },
+      companyId: currentUser.companyId
     };
 
-    const [users, total] = await Promise.all([
+    // Get accepted vets for this farm/company
+    const acceptedVetRequests = await prisma.vetRequest.findMany({
+      where: {
+        companyId: currentUser.companyId,
+        status: 'ACCEPTED'
+      },
+      select: {
+        vetId: true
+      }
+    });
+
+    const vetIds = acceptedVetRequests.map((r:any) => r.vetId);
+    
+    const acceptedVets = await prisma.user.findMany({
+      where: {
+        id: { in: vetIds },
+        isSuspended: false,
+        isVerified: true
+      },
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        role: true,
+        companyName: true,
+        location: true,
+        bio: true,
+        specializations: true,
+        lastLogin: true,
+        createdAt: true
+      }
+    });
+
+    const [farmUsers, totalFarmUsers] = await Promise.all([
       prisma.user.findMany({
-         where: { 
-          companyId: currentUser.companyId,
-          ...where
-        },
+        where: farmUsersWhere,
         skip: (Number(page) - 1) * Number(limit),
         take: Number(limit),
         select: userSelect,
         orderBy: { createdAt: 'desc' },
       }),
-      prisma.user.count({ where })
+      prisma.user.count({ where: farmUsersWhere })
     ]);
 
+    const allUsers = [...farmUsers, ...acceptedVets];
+
     sendSuccessResponse(res, 'Users retrieved successfully', {
-      users,
+      users: allUsers,
+      farmUsers: farmUsers,
+      acceptedVets: acceptedVets,
       pagination: {
         page: Number(page),
         limit: Number(limit),
-        total,
-        pages: Math.ceil(total / Number(limit))
+        totalFarmUsers: totalFarmUsers,
+        totalVets: acceptedVets.length,
+        totalUsers: allUsers.length,
+        pages: Math.ceil(totalFarmUsers / Number(limit))
       }
     });
   } catch (error) {
     next(error);
   }
 };
+
 
 
 export const getUserById = async (
