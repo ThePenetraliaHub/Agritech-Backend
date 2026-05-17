@@ -10,6 +10,7 @@ import {
 	getVetAssignedFarms,
 	getAllVets,
 	updateUserAvatar,
+	updateMyAvatar,
 } from '../contollers/users.controllers';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
@@ -30,6 +31,13 @@ usersRouter.patch(
   authenticateJWT,
   validateRequest(updateUserSchema),
   updateUserProfile
+);
+
+usersRouter.patch(
+  '/me/avatar',
+  authenticateJWT,
+  upload.single('avatar'),
+  updateMyAvatar
 );
 
 // usersRouter.patch(
@@ -69,6 +77,7 @@ usersRouter.patch(
   adminUpdateUser
 );
 
+
 usersRouter.patch(
   '/:userId/avatar',
   authenticateJWT,
@@ -76,6 +85,8 @@ usersRouter.patch(
   upload.single('avatar'), 
   updateUserAvatar 
 );
+
+
 
 
 usersRouter.get(

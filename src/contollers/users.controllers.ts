@@ -61,6 +61,61 @@ export const getProfile = async (
 //   }
 // };
 
+// export const getAllUsers = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const requestingUser = (req as any).user; 
+//     const { page = 1, limit = 10 } = req.query;
+//     const currentUser = (req.user as any);
+
+//     // Determine which roles the current user can access
+//     let allowedRoles: Role[] = [];
+    
+//     if (requestingUser.role === 'ADMIN') {
+//       allowedRoles = ['FARM_KEEPER', 'COWORKER'];
+//     } else if (requestingUser.role === 'FARM_KEEPER') {
+//       allowedRoles = ['COWORKER'];
+//     } else {
+//       throw new ForbiddenError('You do not have permission to view users');
+//     }
+
+//     const where = {
+//       role: { in: allowedRoles },
+//       id: { not: requestingUser.id } 
+//     };
+
+//     const [users, total] = await Promise.all([
+//       prisma.user.findMany({
+//          where: { 
+//           companyId: currentUser.companyId,
+//           ...where
+//         },
+//         skip: (Number(page) - 1) * Number(limit),
+//         take: Number(limit),
+//         select: userSelect,
+//         orderBy: { createdAt: 'desc' },
+//       }),
+//       prisma.user.count({ where })
+//     ]);
+
+//     sendSuccessResponse(res, 'Users retrieved successfully', {
+//       users,
+//       pagination: {
+//         page: Number(page),
+//         limit: Number(limit),
+//         total,
+//         pages: Math.ceil(total / Number(limit))
+//       }
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
 export const getAllUsers = async (
   req: Request,
   res: Response,
@@ -82,39 +137,80 @@ export const getAllUsers = async (
       throw new ForbiddenError('You do not have permission to view users');
     }
 
-    const where = {
+    // Get farm users (existing functionality)
+    const farmUsersWhere = {
       role: { in: allowedRoles },
-      id: { not: requestingUser.id } 
+      id: { not: requestingUser.id },
+      companyId: currentUser.companyId
     };
 
-    const [users, total] = await Promise.all([
+    // Get accepted vets for this farm/company
+    const acceptedVetRequests = await prisma.vetRequest.findMany({
+      where: {
+        companyId: currentUser.companyId,
+        status: 'ACCEPTED'
+      },
+      select: {
+        vetId: true
+      }
+    });
+
+    const vetIds = acceptedVetRequests.map(r => r.vetId);
+    
+    const acceptedVets = await prisma.user.findMany({
+      where: {
+        id: { in: vetIds },
+        isSuspended: false,
+        isVerified: true
+      },
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        role: true,
+        companyName: true,
+        location: true,
+        bio: true,
+        specializations: true,
+        lastLogin: true,
+        createdAt: true
+      }
+    });
+
+    // Get farm users with pagination
+    const [farmUsers, totalFarmUsers] = await Promise.all([
       prisma.user.findMany({
-         where: { 
-          companyId: currentUser.companyId,
-          ...where
-        },
+        where: farmUsersWhere,
         skip: (Number(page) - 1) * Number(limit),
         take: Number(limit),
         select: userSelect,
         orderBy: { createdAt: 'desc' },
       }),
-      prisma.user.count({ where })
+      prisma.user.count({ where: farmUsersWhere })
     ]);
 
+    // Combine farm users and accepted vets
+    const allUsers = [...farmUsers, ...acceptedVets];
+
     sendSuccessResponse(res, 'Users retrieved successfully', {
-      users,
+      users: allUsers,
+      farmUsers: farmUsers,
+      acceptedVets: acceptedVets,
       pagination: {
         page: Number(page),
         limit: Number(limit),
-        total,
-        pages: Math.ceil(total / Number(limit))
+        totalFarmUsers: totalFarmUsers,
+        totalVets: acceptedVets.length,
+        totalUsers: allUsers.length,
+        pages: Math.ceil(totalFarmUsers / Number(limit))
       }
     });
   } catch (error) {
     next(error);
   }
 };
-
 
 export const getUserById = async (
   req: Request,
@@ -249,6 +345,71 @@ export const adminUpdateUser = async (
 
     sendSuccessResponse(res, 'User updated successfully', updatedUser);
   } catch (error) {
+    next(error);
+  }
+};
+
+
+
+export const updateMyAvatar = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = (req.user as any).id;
+
+    const targetUser = await prisma.user.findUnique({
+      where: { id: userId }
+    });
+
+    if (!targetUser) {
+      throw new NotFoundError('User not found');
+    }
+
+    const file = req.file;
+    if (!file) {
+      throw new BadRequestError('No avatar file uploaded');
+    }
+
+    // Validate file type
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
+    if (!allowedMimeTypes.includes(file.mimetype)) {
+      await deleteFile(file.filename); 
+      throw new BadRequestError('Invalid file type. Only JPEG, PNG, GIF, and WEBP are allowed');
+    }
+    const maxSize = 5 * 1024 * 1024; 
+    if (file.size > maxSize) {
+      await deleteFile(file.filename);
+      throw new BadRequestError('File too large. Maximum size is 5MB');
+    }
+
+    const avatarUrl = getFileUrl(file.filename);
+    if (targetUser.avatar) {
+      try {
+        const oldFilename = targetUser.avatar.split('/').pop();
+        if (oldFilename) {
+          await deleteFile(oldFilename);
+        }
+      } catch (error) {
+        console.error('Error deleting old avatar:', error);
+      }
+    }
+    
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { 
+        avatar: avatarUrl,
+        updatedAt: new Date() 
+      },
+      select: userSelect
+    });
+
+    sendSuccessResponse(res, 'Avatar updated successfully', updatedUser);
+  } catch (error) {
+    if (req.file) {
+      await deleteFile(req.file.filename);
+    }
     next(error);
   }
 };

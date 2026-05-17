@@ -15,7 +15,7 @@ const storageConfig = {
 };
 
 let storage: StorageEngine;
-
+ 
 if (storageConfig.driver === 's3') {
   const s3 = new S3Client({
     region: process.env.AWS_REGION,
