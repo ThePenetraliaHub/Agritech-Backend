@@ -4,6 +4,7 @@ import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { ForbiddenError } from '../errors/ForbiddenError';
 import { createAppointmentReminders, notifyFarmStaffAboutAppointment } from '../helpers/appointment.helpers';
 import { NotFoundError } from '../errors/NotFoundError';
+import { getRequiredStringParam } from '@/utils/type-helper';
 
 export const scheduleAppointment = async (
   req: Request,
@@ -13,7 +14,7 @@ export const scheduleAppointment = async (
   try {
     const userId = (req.user as any).id;
     const userRole = (req.user as any).role;
-    const companyId = req.params.companyId;
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
     if (userRole !== 'VET') {
       throw new ForbiddenError('Only veterinarians can schedule appointments');
     }
@@ -219,7 +220,7 @@ export const logFarmVisit = async (
   try {
     const userId = (req.user as any).id;
     const userRole = (req.user as any).role;
-    const companyId = req.params.companyId;
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
 
     // Only VET can log farm visits
     if (userRole !== 'VET') {
@@ -283,7 +284,7 @@ export const getFarmVisits = async (
   next: NextFunction
 ) => {
   try {
-    const companyId = req.params.companyId;
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
     const { page = 1, limit = 10 } = req.query;
 
     const [farmVisits, total] = await Promise.all([

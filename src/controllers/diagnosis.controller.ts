@@ -3,6 +3,7 @@ import prisma from '../prisma';
 import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { NotFoundError } from '../errors/NotFoundError';
 import { ForbiddenError } from '../errors/ForbiddenError';
+import { getRequiredStringParam } from '@/utils/type-helper';
 
 export const createDiagnosis = async (
   req: Request,
@@ -12,7 +13,8 @@ export const createDiagnosis = async (
   try {
     const userId = (req.user as any).id;
     const userRole = (req.user as any).role;
-    const livestockId = req.params.livestockId; 
+    // const livestockId = req.params.livestockId;
+    const livestockId = getRequiredStringParam(req.params.livestockId, 'Livestock ID'); 
     
     // Only VET can create diagnosis
     if (userRole !== 'VET') {
@@ -77,7 +79,7 @@ export const updateDiagnosis = async (
   try {
     const userId = (req.user as any).id;
     const userRole = (req.user as any).role;
-    const diagnosisId = req.params.diagnosisId;
+    const diagnosisId = getRequiredStringParam(req.params.diagnosisId, 'Diagnosis ID');
     
     // Only VET can update diagnosis
     if (userRole !== 'VET') {
@@ -147,7 +149,8 @@ export const getLivestockDiagnoses = async (
   next: NextFunction
 ) => {
   try {
-    const livestockId = req.params.livestockId;
+    // const livestockId = req.params.livestockId;
+    const livestockId = getRequiredStringParam(req.params.livestockId, 'Livestock ID');
 
     // Verify livestock exists
     const livestock = await prisma.livestock.findUnique({
@@ -200,7 +203,7 @@ export const getDiagnosis = async (
   next: NextFunction
 ) => {
   try {
-    const diagnosisId = req.params.diagnosisId;
+    const diagnosisId = getRequiredStringParam(req.params.diagnosisId, 'Diagnosis ID');
 
     const diagnosis = await prisma.diagnosis.findUnique({
       where: { id: diagnosisId },
@@ -242,7 +245,8 @@ export const deleteDiagnosis = async (
   try {
     const userId = (req.user as any).id;
     const userRole = (req.user as any).role;
-    const diagnosisId = req.params.diagnosisId;
+    // const diagnosisId = req.params.diagnosisId;
+    const diagnosisId = getRequiredStringParam(req.params.diagnosisId, 'Diagnosis ID');
     
     // Only VET can delete diagnosis
     if (userRole !== 'VET') {

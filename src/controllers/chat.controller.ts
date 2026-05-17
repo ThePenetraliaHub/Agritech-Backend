@@ -6,6 +6,7 @@ import { ForbiddenError } from '../errors/ForbiddenError';
 import { BadRequestError } from '../errors/BadRequestError';
 import { NotificationService } from '../services/notification.services';
 import { MessageService } from '../services/message.services';
+import { getRequiredStringParam } from '@/utils/type-helper';
 
 export const sendVetRequest = async (
   req: Request,
@@ -15,7 +16,9 @@ export const sendVetRequest = async (
   try {
     const adminId = (req.user as any).id;
     const adminRole = (req.user as any).role;
-    const { vetId, companyId } = req.params;
+      const vetId = getRequiredStringParam(req.params.vetId, 'Vet ID');
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
+    // const { vetId, companyId } = req.params;
     const { message } = req.body;
 
     if (adminRole !== 'ADMIN') {
@@ -153,7 +156,8 @@ export const acceptVetRequest = async (
   try {
     const vetId = (req.user as any).id;
     const vetRole = (req.user as any).role;
-    const { requestId } = req.params;
+    const requestId = getRequiredStringParam(req.params.requestId, 'Request ID');
+    // const { requestId } = req.params;
 
     if (vetRole !== 'VET') {
       throw new ForbiddenError('Only vets can accept requests');
@@ -268,7 +272,7 @@ export const rejectVetRequest = async (
   try {
     const vetId = (req.user as any).id;
     const vetRole = (req.user as any).role;
-    const { requestId } = req.params;
+    const requestId = getRequiredStringParam(req.params.requestId, 'Request ID');
     const { reason } = req.body;
 
     if (vetRole !== 'VET') {
@@ -502,7 +506,8 @@ export const getMessages = async (
 ) => {
   try {
     const userId = (req.user as any).id;
-    const { conversationId } = req.params;
+    // const { conversationId } = req.params;
+    const conversationId = getRequiredStringParam(req.params.conversationId, 'Conversation ID');
     const { before, limit = 50 } = req.query;
 
     // Verify user is part of conversation
@@ -682,7 +687,8 @@ export const getConversation = async (
 ) => {
   try {
     const userId = (req.user as any).id;
-    const { conversationId } = req.params;
+    // const { conversationId } = req.params;
+     const conversationId = getRequiredStringParam(req.params.conversationId, 'Conversation ID');
 
     const conversation = await prisma.conversation.findFirst({
       where: {
@@ -739,7 +745,8 @@ export const updateConversation = async (
 ) => {
   try {
     const userId = (req.user as any).id;
-    const { conversationId } = req.params;
+    // const { conversationId } = req.params;
+      const conversationId = getRequiredStringParam(req.params.conversationId, 'Conversation ID');
     const { groupName, groupImage } = req.body;
 
     const conversation = await prisma.conversation.findFirst({
@@ -794,7 +801,7 @@ export const deleteConversation = async (
 ) => {
   try {
     const userId = (req.user as any).id;
-    const { conversationId } = req.params;
+    const conversationId = getRequiredStringParam(req.params.conversationId, 'Conversation ID');
 
     const conversation = await prisma.conversation.findFirst({
       where: {
@@ -830,7 +837,8 @@ export const addParticipants = async (
 ) => {
   try {
     const userId = (req.user as any).id;
-    const { conversationId } = req.params;
+    // const { conversationId } = req.params;
+      const conversationId = getRequiredStringParam(req.params.conversationId, 'Conversation ID');
     const { participantIds } = req.body;
 
     if (!participantIds || participantIds.length === 0) {
@@ -902,7 +910,8 @@ export const removeParticipant = async (
 ) => {
   try {
     const userId = (req.user as any).id;
-    const { conversationId, participantId } = req.params;
+    const conversationId = getRequiredStringParam(req.params.conversationId, 'Conversation ID');
+    const participantId = getRequiredStringParam(req.params.participantId, 'Participant ID');
 
     const conversation = await prisma.conversation.findFirst({
       where: {

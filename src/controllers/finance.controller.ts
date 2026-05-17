@@ -4,6 +4,7 @@ import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { NotFoundError } from '../errors/NotFoundError';
 import { getFileUrl } from '../config/upload';
 import { ForbiddenError } from '../errors/ForbiddenError';
+import { getRequiredStringParam } from '@/utils/type-helper';
 
 
 export const recordFinancialTransaction = async (
@@ -15,7 +16,8 @@ export const recordFinancialTransaction = async (
     const files = req.files as Express.Multer.File[];
     const userId = (req.user as any).id;
     const mediaUrls = files?.map(file => getFileUrl(file.filename)) || [];
-    const { companyId } = req.params;
+    // const { companyId } = req.params;
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
 
     const {
       type,
@@ -150,8 +152,8 @@ export const getFinancialTransaction = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { transactionId } = req.params;
-
+    // const { transactionId } = req.params;
+    const transactionId = getRequiredStringParam(req.params.transactionId, 'Transaction ID');
     const transaction = await prisma.financialTransaction.findUnique({
       where: { id: transactionId },
       include: {

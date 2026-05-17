@@ -5,6 +5,7 @@ import { NotFoundError } from '../errors/NotFoundError';
 import { userSelect } from '../prisma/selects';
 import { BadRequestError } from '../errors/BadRequestError';
 import { ForbiddenError } from '../errors/ForbiddenError';
+import { getRequiredStringParam } from '@/utils/type-helper';
 
 export const addLivestock = async (
   req: Request,
@@ -25,7 +26,8 @@ export const addLivestock = async (
     } = req.body;
     
     const addedById = (req.user as any).id;
-    const { companyId } = req.params;
+    // const { companyId } = req.params;
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
 
     const livestock = await prisma.livestock.create({
       data: {
@@ -63,9 +65,10 @@ export const getLivestockById = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    const livestockId = getRequiredStringParam(req.params.livestockId, 'Livestock ID');
     const livestock = await prisma.livestock.findUnique({
       where: { 
-        id: req.params.livestockId,
+        id: livestockId,
       },
       include: { 
         addedBy: {select: userSelect},
@@ -148,7 +151,7 @@ export const getLivestockByCompany = async (
 ): Promise<void> => {
   try {
     const { page = 1, limit = 10, type } = req.query;
-    const { companyId } = req.params; 
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
     const currentUser = (req.user as any);
 
     const where = { 
@@ -251,7 +254,8 @@ export const updateLivestock = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const livestockId = req.params.livestockId;
+    // const livestockId = req.params.livestockId;
+    const livestockId = getRequiredStringParam(req.params.livestockId, 'Livestock ID');
     const currentUser = (req.user as any);
     const updateData = req.body;
     const updatedById = (req.user as any).id;
@@ -318,7 +322,7 @@ export const softDeleteLivestock = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { livestockId } = req.params;
+    const livestockId = getRequiredStringParam(req.params.livestockId, 'Livestock ID');
     const { reason } = req.body;
     const userId = (req.user as any).id;
     const userRole = (req.user as any).role;
@@ -404,7 +408,8 @@ export const restoreLivestock = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { livestockId } = req.params;
+    // const { livestockId } = req.params;
+    const livestockId = getRequiredStringParam(req.params.livestockId, 'Livestock ID');
 
     const livestock = await prisma.livestock.update({
       where: { id: livestockId, isDeleted: true },
@@ -434,7 +439,8 @@ export const getFarmLivestock = async (
   try {
     const vetId = (req.user as any).id;
     const vetRole = (req.user as any).role;
-    const { companyId } = req.params;
+    // const { companyId } = req.params;
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
     const { page = 1, limit = 10, healthStatus, type } = req.query;
 
     // Only vets can access this endpoint
@@ -537,7 +543,8 @@ export const getLivestockHealthHistory = async (
   next: NextFunction
 ) => {
   try {
-    const livestockId = req.params.livestockId;
+    // const livestockId = req.params.livestockId;
+    const livestockId = getRequiredStringParam(req.params.livestockId, 'Livestock ID');
 
     // First, verify the livestock exists
     const livestock = await prisma.livestock.findUnique({
@@ -698,7 +705,7 @@ export const getLivestockActivityTimeline = async (
   next: NextFunction
 ) => {
   try {
-    const livestockId = req.params.livestockId;
+    const livestockId = getRequiredStringParam(req.params.livestockId, 'Livestock ID');
 
     // First, verify the livestock exists
     const livestock = await prisma.livestock.findUnique({

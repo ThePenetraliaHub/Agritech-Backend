@@ -4,6 +4,7 @@ import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { NotFoundError } from '../errors/NotFoundError';
 import { getFileUrl } from '../config/upload';
 import { BadRequestError } from '../errors/BadRequestError';
+import { getRequiredStringParam } from '@/utils/type-helper';
 
 
 export const createInventoryRecord = async (
@@ -14,7 +15,8 @@ export const createInventoryRecord = async (
   try {
     const files = req.files as Express.Multer.File[];
     const userId = (req.user as any).id;
-    const { companyId } = req.params;
+    // const { companyId } = req.params;
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
     const mediaUrls = files?.map(file => getFileUrl(file.filename)) || [];
     const { recordType } = req.body;
 
@@ -234,7 +236,8 @@ export const getInventoryRecord = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { recordId } = req.params;
+    // const { recordId } = req.params;
+    const recordId = getRequiredStringParam(req.params.recordId, 'Record ID');
 
     const record = await prisma.inventoryRecord.findUnique({
       where: { id: recordId },
@@ -333,7 +336,7 @@ export const getInventoryItem = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { inventoryId } = req.params;
+    const inventoryId = getRequiredStringParam(req.params.inventoryId, 'Inventory ID');
 
     const item = await prisma.inventory.findUnique({
       where: { id: inventoryId },

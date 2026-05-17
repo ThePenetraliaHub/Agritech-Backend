@@ -16,6 +16,7 @@ import { compareDates } from "../utils/dateExpiration";
 import { userSelect } from "../prisma/selects";
 import { ConflictError } from "../errors/ConflictError";
 import { normalizePhoneNumber, validatePhoneNumber } from "../utils/phoneFormat";
+import { getRequiredStringParam } from "@/utils/type-helper";
 // import { isValid } from "zod";
 
 export const adminRegister = async (
@@ -117,7 +118,8 @@ export const register = async (
 ): Promise<void> => {
   try {
     const { email, phone, fullName, password, role } = req.body;
-    const { companyId } = req.params;
+    // const { companyId } = req.params;
+    const companyId = getRequiredStringParam(req.params.companyId, 'Company ID');
 
      if (phone && !validatePhoneNumber(phone)) {
       throw new BadRequestError(
@@ -173,7 +175,7 @@ export const register = async (
       verificationExpires: new Date(new Date().getTime() + 30 * 60 * 1000),
       role: role || "COWORKER",
       isVerified: true,
-      companyId: companyId
+      companyId: companyId 
     }
   });
   sendSuccessResponse(res, "Registeration successfully", 
