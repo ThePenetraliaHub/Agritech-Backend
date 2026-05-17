@@ -5,9 +5,15 @@ const express_1 = require("express");
 const errorHandler_1 = require("../middlewares/errorHandler");
 const validateRequest_1 = require("../middlewares/validateRequest");
 const treatment_schemas_1 = require("../schemas/treatment.schemas");
+<<<<<<< HEAD
+=======
 const notification_schemas_1 = require("../schemas/notification.schemas");
 const roleCheck_1 = require("../middlewares/roleCheck");
+<<<<<<< HEAD
+>>>>>>> 9ac435c3ce3d40b6e1c46a4e93ea9dfa5c8a7220
+=======
 const notification_controller_1 = require("../contollers/notification.controller");
+>>>>>>> d568910671b1341a9e8f86b90759f06f1cc4a08e
 exports.notificationRouter = (0, express_1.Router)();
 // Create diagnosis - VET only
 exports.notificationRouter.get('/', errorHandler_1.authenticateJWT, notification_controller_1.getNotifications);

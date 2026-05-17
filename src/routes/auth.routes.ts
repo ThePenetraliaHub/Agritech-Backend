@@ -1,16 +1,16 @@
 import { Router } from 'express';
-import {
-	login,
-	adminRegister,
-	requestVerificationCode,
-	resetPassword,
-	verifyAccount,
-	register,
-	vetRegister,
-	vetLogin,
-	forgotPassword,
-	changePassword,
-} from '../contollers/auth.controller';
+// import {
+// 	login,
+// 	adminRegister,
+// 	requestVerificationCode,
+// 	resetPassword,
+// 	verifyAccount,
+// 	register,
+// 	vetRegister,
+// 	vetLogin,
+// 	forgotPassword,
+// 	changePassword,
+// } from '../controllers/auth.controllers';
 import { validateRequest } from '../middlewares/validateRequest';
 import {
 	loginSchema,
@@ -22,11 +22,10 @@ import {
 	vetRegisterSchema,
 	forgotPasswordSchema,
 } from '../schemas/auth.schemas';
-import passport from 'passport';
-import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { changePasswordSchema } from '../schemas/users.schemas';
+import { adminRegister, changePassword, forgotPassword, login, register, requestVerificationCode, resetPassword, verifyAccount, vetLogin, vetRegister } from '../controllers/auth.controller';
 
 export const authRouter = Router();
 
@@ -78,24 +77,24 @@ authRouter.put('/reset',
 );
 
 // Google Strategy
-authRouter.get(
-	'/google',
-	passport.authenticate('google', { scope: ['profile', 'email'] })
-);
+// authRouter.get(
+// 	'/google',
+// 	passport.authenticate('google', { scope: ['profile', 'email'] })
+// );
 
-authRouter.get(
-	'/google/callback',
-	passport.authenticate('google', { session: false }),
-	(req, res) => {
-		const { user, token } = req.user as any;
-		res.json({
-			message: 'Login successful',
-			user,
-			token,
-		});
-		sendSuccessResponse(res, 'Login successful', { user, token });
-	}
-);
+// authRouter.get(
+// 	'/google/callback',
+// 	passport.authenticate('google', { session: false }),
+// 	(req, res) => {
+// 		const { user, token } = req.user as any;
+// 		res.json({
+// 			message: 'Login successful',
+// 			user,
+// 			token,
+// 		});
+// 		sendSuccessResponse(res, 'Login successful', { user, token });
+// 	}
+// );
 
 authRouter.get('/failure', (_req, res) => {
 	res.status(401).json({ error: 'Failed to authenticate' });

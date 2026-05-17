@@ -4,8 +4,7 @@ import { validateRequest } from '../middlewares/validateRequest';
 import { updateNotificationStatusSchema } from '../schemas/treatment.schemas';
 import { requestUpdateSchema, updateNotificationSettingsSchema } from '../schemas/notification.schemas';
 import { requireRoles } from '../middlewares/roleCheck';
-import { getNotifications, getNotificationSettings, requestHealthStatusUpdate, requestWeightUpdate, toggleNotificationSetting, updateNotificationSettings, updateNotificationStatus } from '../contollers/notification.controller';
-
+import { getNotifications, getNotificationSettings, requestHealthStatusUpdate, requestWeightUpdate, toggleNotificationSetting, updateNotificationSettings, updateNotificationStatus } from '../controllers/notification.controller'
 export const notificationRouter = Router();
 
 // Create diagnosis - VET only

@@ -6,7 +6,11 @@ const prisma = new client_1.PrismaClient();
 async function main() {
     console.log('🌱 Starting seed...');
     // Clear existing data in correct order to handle foreign key constraints
+<<<<<<< HEAD
+    console.log('🗑️ Clearing existing data...');
+=======
     // console.log('🗑️ Clearing existing data...');
+>>>>>>> 82cdd2a9a0440413d0b24c05dfc3f01e4a86cfb0
     await prisma.note.deleteMany();
     await prisma.followUpReminder.deleteMany();
     await prisma.treatmentReminder.deleteMany();

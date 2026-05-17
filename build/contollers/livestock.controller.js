@@ -3,7 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+<<<<<<< HEAD
+exports.restoreLivestock = exports.getDeletedLivestock = exports.softDeleteLivestock = exports.deleteLivestock = exports.updateLivestock = exports.getLivestockCounts = exports.getAllLivestock = exports.getLivestock = exports.addLivestock = void 0;
+=======
 exports.getLivestockActivityTimeline = exports.getLivestockHealthHistory = exports.getFarmLivestock = exports.restoreLivestock = exports.getDeletedLivestock = exports.softDeleteLivestock = exports.deleteLivestock = exports.updateLivestock = exports.getLivestockCounts = exports.getLivestockByCompany = exports.getAllLivestock = exports.getLivestockById = exports.addLivestock = void 0;
+>>>>>>> 1ad2da4ca5b21585f4635dfd7fede0c020b7c2c0
 const prisma_1 = __importDefault(require("../prisma"));
 const sendSuccessResponse_1 = require("../utils/sendSuccessResponse");
 const NotFoundError_1 = require("../errors/NotFoundError");
@@ -240,6 +244,7 @@ const updateLivestock = async (req, res, next) => {
 };
 exports.updateLivestock = updateLivestock;
 // permenant delete livestock
+// This will remove the livestock record from the database
 const deleteLivestock = async (req, res, next) => {
     try {
         const currentUser = req.user;

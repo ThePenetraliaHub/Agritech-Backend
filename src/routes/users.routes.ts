@@ -11,7 +11,7 @@ import {
 	getAllVets,
 	updateUserAvatar,
 	updateMyAvatar,
-} from '../contollers/users.controllers';
+} from '../controllers/users.controllers';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import { adminUpdateUserSchema, updateUserSchema } from '../schemas/users.schemas';

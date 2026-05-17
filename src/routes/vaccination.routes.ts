@@ -6,7 +6,7 @@ import {
   getAllVaccinations,
   updateVaccination,
   deleteVaccination,
-} from '../contollers/vaccination.controller';
+} from '../controllers/vaccination.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { validateRequest } from '../middlewares/validateRequest';

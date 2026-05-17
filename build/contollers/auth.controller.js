@@ -460,6 +460,7 @@ const changePassword = async (req, res, next) => {
     }
 };
 exports.changePassword = changePassword;
+
 const resetPassword = async (req, res, next) => {
     const { email, password, confirmPassword, verificationCode } = req.body;
     try {

@@ -13,7 +13,7 @@ import {
   getLivestockHealthHistory,
   getLivestockActivityTimeline,
   getLivestockByCompany,
-} from '../contollers/livestock.controller';
+} from '../controllers/livestock.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import {

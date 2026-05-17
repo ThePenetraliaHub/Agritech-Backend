@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { getAllTreatments, getTreatmentById, prescribeTreatment, recordTreatment, scheduleFollowUp } from '../contollers/treatment.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { validateRequest } from '../middlewares/validateRequest';
 import { prescribeTreatmentSchema, recordTreatmentSchema, scheduleFollowUpSchema } from '../schemas/treatment.schemas';
+import { getAllTreatments, getTreatmentById, prescribeTreatment, recordTreatment, scheduleFollowUp } from '../controllers/treatment.controller';
 
 export const treatmentRouter = Router();
 

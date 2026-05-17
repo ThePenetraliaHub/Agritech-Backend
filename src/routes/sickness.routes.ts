@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllSickness, getSicknessById, reportSickness } from '../contollers/sickness.controllers';
+import { getAllSickness, getSicknessById, reportSickness } from '../controllers/sickness.controllers';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { requireRoles } from '../middlewares/roleCheck';
 import { validateRequest } from '../middlewares/validateRequest';

@@ -3,14 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTasksByLivestock = exports.createTaskObservation = exports.getAllAssignedTasks = exports.updateTaskStatus = exports.getTask = exports.getMyTasks = exports.createTask = void 0;
+exports.createTaskObservation = exports.getAllAssignedTasks = exports.updateTaskStatus = exports.getTask = exports.getMyTasks = exports.createTask = void 0;
 const prisma_1 = __importDefault(require("../prisma"));
 const sendSuccessResponse_1 = require("../utils/sendSuccessResponse");
 const NotFoundError_1 = require("../errors/NotFoundError");
 const ForbiddenError_1 = require("../errors/ForbiddenError");
 const selects_1 = require("../prisma/selects");
 const upload_1 = require("../config/upload");
+
 const notification_helpers_1 = require("../helpers/notification.helpers");
+
 const createTask = async (req, res, next) => {
     try {
         const { name, description, priority, dueDate, assignedToId, livestockId } = req.body;
@@ -189,37 +191,18 @@ const getAllAssignedTasks = async (req, res, next) => {
             ...(status && { status: status })
         };
         // Role-specific filtering
-        // if (userRole === 'FARM_KEEPER') {
-        //   // Farm keepers can only see tasks they've assigned or tasks assigned to their coworkers
-        //   where.OR = [
-        //     { assignedById: userId },
-        //     { 
-        //       assignedTo: { 
-        //         role:{ in: ['COWORKER', 'VET'] },
-        //       } 
-        //     }
-        //   ];
-        // } 
-        switch (userRole) {
-            case 'FARM_KEEPER':
-                where.OR = [
-                    { assignedById: userId },
-                    {
-                        assignedTo: {
-                            role: { in: ['COWORKER', 'VET'] }
-                        }
+        if (userRole === 'FARM_KEEPER') {
+            // Farm keepers can only see tasks they've assigned or tasks assigned to their coworkers
+            where.OR = [
+                { assignedById: userId },
+                {
+                    assignedTo: {
+                        role: 'COWORKER',
                     }
-                ];
-                break;
-            case 'ADMIN':
-                // Admin can see all tasks (no additional filtering needed)
-                break;
-            case 'VET':
-                where.assignedToId = userId;
-                break;
-            default:
-                where.assignedToId = userId;
+                }
+            ];
         }
+        // Admin can see all tasks (no additional filtering needed)
         const [tasks, total] = await Promise.all([
             prisma_1.default.task.findMany({
                 where: {
@@ -243,8 +226,7 @@ const getAllAssignedTasks = async (req, res, next) => {
                             fullName: true,
                             role: true
                         }
-                    },
-                    livestock: true
+                    }
                 }
             }),
             prisma_1.default.task.count({

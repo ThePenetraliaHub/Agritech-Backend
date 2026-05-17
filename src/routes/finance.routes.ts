@@ -3,7 +3,7 @@ import {
   recordFinancialTransaction,
   getFinancialTransactions,
   getFinancialTransaction
-} from '../contollers/finance.controller';
+} from '../controllers/finance.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import { financialTransactionSchema } from '../schemas/finance.schemas';

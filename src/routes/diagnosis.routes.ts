@@ -1,17 +1,18 @@
 import { Router } from 'express';
-import {
-  createDiagnosis,
-  updateDiagnosis,
-  getLivestockDiagnoses,
-  getDiagnosis,
-  deleteDiagnosis
-} from '../contollers/diagnosis.controller';
+// import {
+//   createDiagnosis,
+//   updateDiagnosis,
+//   getLivestockDiagnoses,
+//   getDiagnosis,
+//   deleteDiagnosis
+// } from '../contollers/diagnosis.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import {
   createDiagnosisSchema,
   updateDiagnosisSchema,
 } from '../schemas/diagnosis.schemas';
+import { createDiagnosis, deleteDiagnosis, getDiagnosis, getLivestockDiagnoses, updateDiagnosis } from '../controllers/diagnosis.controller';
 
 export const diagnosisRouter = Router();
 

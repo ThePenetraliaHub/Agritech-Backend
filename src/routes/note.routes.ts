@@ -6,7 +6,7 @@ import {
   updateNote,
   deleteNote,
   getNoteFolders
-} from '../contollers/note.controller';
+} from '../controllers/note.controller';
 import { authenticateJWT } from '../middlewares/errorHandler';
 import { validateRequest } from '../middlewares/validateRequest';
 import {

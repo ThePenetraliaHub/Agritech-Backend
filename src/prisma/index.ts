@@ -12,4 +12,4 @@ const prisma = new PrismaClient({
     : ['error', 'warn']
 });
 
-export default prisma;
+export default prisma; 

@@ -2,16 +2,24 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersRouter = void 0;
 const express_1 = require("express");
-const users_controllers_1 = require("../contollers/users.controllers");
+const users_controllers_1 = require("../controllers/users.controllers");
 const errorHandler_1 = require("../middlewares/errorHandler");
 const validateRequest_1 = require("../middlewares/validateRequest");
 const users_schemas_1 = require("../schemas/users.schemas");
 const roleCheck_1 = require("../middlewares/roleCheck");
+<<<<<<< HEAD
+const auth_controller_1 = require("../contollers/auth.controller");
+=======
 const upload_1 = require("../config/upload");
+>>>>>>> 0faa8d113ef180749b48b8c253627d455ac4b90f
 exports.usersRouter = (0, express_1.Router)();
 exports.usersRouter.get('/profile', errorHandler_1.authenticateJWT, users_controllers_1.getProfile);
 exports.usersRouter.patch('/update', errorHandler_1.authenticateJWT, (0, validateRequest_1.validateRequest)(users_schemas_1.updateUserSchema), users_controllers_1.updateUserProfile);
+<<<<<<< HEAD
 exports.usersRouter.patch('/me/avatar', errorHandler_1.authenticateJWT, upload_1.upload.single('avatar'), users_controllers_1.updateMyAvatar);
+=======
+exports.usersRouter.patch('/change-password', errorHandler_1.authenticateJWT, (0, validateRequest_1.validateRequest)(users_schemas_1.changePasswordSchema), auth_controller_1.changePassword);
+>>>>>>> 8cb37976757d196a31f57ae2ccc26ac9e7e98f2a
 // usersRouter.patch(
 // 	'/update',
 // 	authenticateJWT,
