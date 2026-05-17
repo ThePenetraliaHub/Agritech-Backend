@@ -69,11 +69,7 @@ export const getProfile = async (
 //     const { page = 1, limit = 10 } = req.query;
 //     const currentUser = (req.user as any);
 
-<<<<<<< HEAD:src/contollers/users.controllers.ts
-//     // Determine which roles the current user can access
-=======
 //     // Determine which   s the current user can access
->>>>>>> 8cb37976757d196a31f57ae2ccc26ac9e7e98f2a:src/controllers/users.controllers.ts
 //     let allowedRoles: Role[] = [];
     
 //     if (requestingUser.role === 'ADMIN') {
@@ -118,10 +114,6 @@ export const getProfile = async (
 // };
 
 
-<<<<<<< HEAD:src/contollers/users.controllers.ts
-=======
-
->>>>>>> 8cb37976757d196a31f57ae2ccc26ac9e7e98f2a:src/controllers/users.controllers.ts
 export const getAllUsers = async (
   req: Request,
   res: Response,
@@ -161,11 +153,7 @@ export const getAllUsers = async (
       }
     });
 
-<<<<<<< HEAD:src/contollers/users.controllers.ts
-    const vetIds = acceptedVetRequests.map(r => r.vetId);
-=======
     const vetIds = acceptedVetRequests.map((r:any) => r.vetId);
->>>>>>> 8cb37976757d196a31f57ae2ccc26ac9e7e98f2a:src/controllers/users.controllers.ts
     
     const acceptedVets = await prisma.user.findMany({
       where: {
@@ -189,10 +177,6 @@ export const getAllUsers = async (
       }
     });
 
-<<<<<<< HEAD:src/contollers/users.controllers.ts
-    // Get farm users with pagination
-=======
->>>>>>> 8cb37976757d196a31f57ae2ccc26ac9e7e98f2a:src/controllers/users.controllers.ts
     const [farmUsers, totalFarmUsers] = await Promise.all([
       prisma.user.findMany({
         where: farmUsersWhere,
@@ -204,10 +188,6 @@ export const getAllUsers = async (
       prisma.user.count({ where: farmUsersWhere })
     ]);
 
-<<<<<<< HEAD:src/contollers/users.controllers.ts
-    // Combine farm users and accepted vets
-=======
->>>>>>> 8cb37976757d196a31f57ae2ccc26ac9e7e98f2a:src/controllers/users.controllers.ts
     const allUsers = [...farmUsers, ...acceptedVets];
 
     sendSuccessResponse(res, 'Users retrieved successfully', {
@@ -228,11 +208,8 @@ export const getAllUsers = async (
   }
 };
 
-<<<<<<< HEAD:src/contollers/users.controllers.ts
-=======
 
 
->>>>>>> 8cb37976757d196a31f57ae2ccc26ac9e7e98f2a:src/controllers/users.controllers.ts
 export const getUserById = async (
   req: Request,
   res: Response,
