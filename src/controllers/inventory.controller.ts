@@ -4,7 +4,7 @@ import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { NotFoundError } from '../errors/NotFoundError';
 import { getFileUrl } from '../config/upload';
 import { BadRequestError } from '../errors/BadRequestError';
-import { getRequiredStringParam } from '@/utils/type-helper';
+import { getRequiredStringParam } from '../utils/type-helper';
 
 
 export const createInventoryRecord = async (

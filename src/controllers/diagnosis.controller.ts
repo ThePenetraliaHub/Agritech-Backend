@@ -3,7 +3,7 @@ import prisma from '../prisma';
 import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { NotFoundError } from '../errors/NotFoundError';
 import { ForbiddenError } from '../errors/ForbiddenError';
-import { getRequiredStringParam } from '@/utils/type-helper';
+import { getRequiredStringParam } from '../utils/type-helper';
 
 export const createDiagnosis = async (
   req: Request,

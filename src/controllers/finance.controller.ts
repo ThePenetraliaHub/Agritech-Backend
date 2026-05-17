@@ -4,7 +4,7 @@ import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { NotFoundError } from '../errors/NotFoundError';
 import { getFileUrl } from '../config/upload';
 import { ForbiddenError } from '../errors/ForbiddenError';
-import { getRequiredStringParam } from '@/utils/type-helper';
+import { getRequiredStringParam } from '../utils/type-helper';
 
 
 export const recordFinancialTransaction = async (

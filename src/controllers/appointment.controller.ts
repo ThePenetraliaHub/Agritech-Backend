@@ -4,7 +4,7 @@ import { sendSuccessResponse } from '../utils/sendSuccessResponse';
 import { ForbiddenError } from '../errors/ForbiddenError';
 import { createAppointmentReminders, notifyFarmStaffAboutAppointment } from '../helpers/appointment.helpers';
 import { NotFoundError } from '../errors/NotFoundError';
-import { getRequiredStringParam } from '@/utils/type-helper';
+import { getRequiredStringParam } from '../utils/type-helper';
 
 export const scheduleAppointment = async (
   req: Request,

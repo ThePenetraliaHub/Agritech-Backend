@@ -16,7 +16,7 @@ import { compareDates } from "../utils/dateExpiration";
 import { userSelect } from "../prisma/selects";
 import { ConflictError } from "../errors/ConflictError";
 import { normalizePhoneNumber, validatePhoneNumber } from "../utils/phoneFormat";
-import { getRequiredStringParam } from "@/utils/type-helper";
+import { getRequiredStringParam } from "../utils/type-helper";
 // import { isValid } from "zod";
 
 export const adminRegister = async (

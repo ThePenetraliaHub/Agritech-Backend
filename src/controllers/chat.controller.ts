@@ -6,7 +6,7 @@ import { ForbiddenError } from '../errors/ForbiddenError';
 import { BadRequestError } from '../errors/BadRequestError';
 import { NotificationService } from '../services/notification.services';
 import { MessageService } from '../services/message.services';
-import { getRequiredStringParam } from '@/utils/type-helper';
+import { getRequiredStringParam } from '../utils/type-helper';
 
 export const sendVetRequest = async (
   req: Request,

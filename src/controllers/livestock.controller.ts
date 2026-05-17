@@ -5,7 +5,7 @@ import { NotFoundError } from '../errors/NotFoundError';
 import { userSelect } from '../prisma/selects';
 import { BadRequestError } from '../errors/BadRequestError';
 import { ForbiddenError } from '../errors/ForbiddenError';
-import { getRequiredStringParam } from '@/utils/type-helper';
+import { getRequiredStringParam } from '../utils/type-helper';
 
 export const addLivestock = async (
   req: Request,
